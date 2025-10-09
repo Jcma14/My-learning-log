@@ -286,7 +286,17 @@ Focus areas:
 
 ## Python
 
+### 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
 
+This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet Diaries**](https://darknetdiaries.com/), and is shared here for **educational and personal learning purposes**.
+
+> 📝 **Credit:** Original creator — [Jack Rhysider](https://darknetdiaries.com/)  
+> 📄 **Source:** *Python Cheat Sheet (Darknet Diaries)*  
+> ⚖️ **Note:** All rights belong to the original author. This resource is included here solely for study and reference.
+
+[📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
+
+---
 
 ## Future Sections
 These placeholders will be filled as I continue learning:
