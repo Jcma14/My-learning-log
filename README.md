@@ -1,6 +1,6 @@
 # Personal Learning Log
 
-This repository is my **personal learning log** documenting my journey through **Cybersecurity**, **Networking**, **Linux**, and **Quality Assurance (QA) Engineering**.
+This repository is my **personal learning log** documenting my journey through **Cybersecurity**, **Networking** and **Quality Assurance (QA) Engineering**.
 
 I use it to track what I learn, reinforce key technical concepts, and organize hands-on knowledge from platforms like **TryHackMe**, **TripleTen**, and self-directed projects. Each section includes summarized explanations, commands, and examples essential for my growth in cybersecurity operations and software quality assurance.
 
