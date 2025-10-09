@@ -1,107 +1,303 @@
-# Personal Learning Log
+# Personal Learning Log: My Tech Journey
 
-This repository is my **personal learning log** documenting my journey through **Cybersecurity**, **Networking** and **Quality Assurance (QA) Engineering**.
-
-I use it to track what I learn, reinforce key technical concepts, and organize hands-on knowledge from platforms like **TryHackMe**, **TripleTen**, and self-directed projects. Each section includes summarized explanations, commands, and examples essential for my growth in cybersecurity operations and software quality assurance.
-
----
-
-## Table of Contents
-1. [Linux Basics](#linux-basics)
-   - [File and Directory Management](#file-and-directory-management)
-   - [Terminal Output and Redirection](#terminal-output-and-redirection)
-2. [SSH and Networking](#ssh-and-networking)
-3. [Cybersecurity Fundamentals](#cybersecurity-fundamentals)
-4. [QA Engineering Notes](#qa-engineering-notes)
-5. [Tools and Workflow](#tools-and-workflow)
+This repository documents my personal journey through **Cybersecurity**, **Networking**, and **QA Engineering**.  
+It serves as a central place to store my technical notes, code examples, and reflections as I grow in the IT field.  
+These notes come from hands-on labs, formal training, and self-study — continuously updated as I learn.
 
 ---
 
-## Linux Basics
+## 🧭 Table of Contents
 
-### File and Directory Management
+1. [Linux Fundamentals](#linux-fundamentals)  
+2. [SSH & Networking](#ssh--networking)  
+3. [Cybersecurity Basics](#cybersecurity-basics)  
+4. [QA Engineering Bootcamp Notes](#qa-engineering-bootcamp-notes)  
+5. [Future Sections](#future-sections)
+
+---
+
+## Linux Fundamentals
+### Directory Navigation
+
+| Command | Meaning | Example |
+|----------|----------|----------|
+| `.` or no special character | Current directory | `cd ./logs` |
+| `..` | Parent directory | `cd ..` |
+| `/` | Root directory | `cd /` |
+| `~` | Home directory | `cd ~` |
+
+### Linux Command Line Basics
+Here’s a list of the most commonly used and essential Linux commands for beginners.  
+These help you navigate, manage files, and perform basic operations in the terminal.
+
+| Command | Description | Example |
+|----------|--------------|----------|
+| `pwd` | Prints the current working directory (where you are) | `pwd` |
+| `ls` | Lists files and folders in the current directory | `ls -l` |
+| `cd` | Changes the current directory | `cd Documents` |
+| `mkdir` | Creates a new directory (folder) | `mkdir new_folder` |
+| `rmdir` | Deletes an **empty** directory | `rmdir old_folder` |
+| `rm` | Removes files | `rm file.txt` |
+| `rm -r` | Removes a directory and its contents recursively | `rm -r folder_name` |
+| `cp` | Copies files or directories | `cp file.txt /home/user/Desktop` |
+| `mv` | Moves or renames files or directories | `mv file.txt newfile.txt` |
+| `touch` | Creates a new empty file or updates its timestamp | `touch notes.txt` |
+| `cat` | Displays the contents of a file | `cat file.txt` |
+| `echo` | Displays text or writes text to a file | `echo "Hello" > greeting.txt` |
+| `man` | Displays the manual for a command (help guide) | `man ls` |
+| `clear` | Clears the terminal screen | `clear` |
+| `history` | Shows a list of recently used commands | `history` |
+| `whoami` | Prints your current username | `whoami` |
+| `uname -a` | Displays system and kernel information | `uname -a` |
+| `df -h` | Shows disk space usage | `df -h` |
+| `du -sh` | Displays the size of the current directory | `du -sh` |
+| `top` | Shows running processes and system resource usage | `top` |
+| `sudo` | Executes a command as a superuser (admin privileges) | `sudo apt update` |
+| `apt update` | Updates the list of available packages | `sudo apt update` |
+| `apt upgrade` | Installs available package upgrades | `sudo apt upgrade` |
+| `exit` | Closes the terminal or SSH session | `exit` |
+
+💡 **Tip:** Use `--help` after any command (for example, `ls --help`) to quickly see its available options and usage examples.
+
+### Linux File Permissions & Ownership
+
+Linux is a multi-user system where every file and directory has permissions that define **who can read, write, or execute** it.  
+Understanding and managing permissions is essential for security and proper system administration.
+
+| Command | Description | Example |
+|----------|--------------|----------|
+| `ls -l` | Lists files in long format, showing permissions and ownership | `ls -l` |
+| `chmod` | Changes file or directory permissions (read, write, execute) | `chmod 755 script.sh` |
+| `chown` | Changes the ownership of a file or directory | `sudo chown user:group file.txt` |
+| `chgrp` | Changes the group ownership of a file or directory | `sudo chgrp developers project/` |
+| `umask` | Sets default permission settings for new files | `umask 022` |
+
+### File Search & Inspection Commands
+
+| Command   | Description                                      | Example                               |
+| --------- | ------------------------------------------------ | ------------------------------------- |
+| `find`    | Search for files and directories                 | `find /home -name notes.txt`          |
+| `grep`    | Search for text inside files                     | `grep "error" logfile.txt`            |
+| `cat`     | Display file contents                            | `cat notes.txt`                       |
+| `less`    | View file contents one screen at a time          | `less notes.txt`                      |
+| `head`    | Show the first 10 lines of a file                | `head notes.txt`                      |
+| `tail`    | Show the last 10 lines of a file                 | `tail notes.txt`                      |
+| `tail -f` | Continuously monitor new lines (useful for logs) | `tail -f /var/log/syslog`             |
+| `wc`      | Count lines, words, and characters               | `wc notes.txt`                        |
+| `du`      | Show disk usage of files/directories             | `du -h /home/user`                    |
+| `df`      | Show available disk space                        | `df -h`                               |
+| `stat`    | Display detailed file information                | `stat notes.txt`                      |
+| `sort`    | Sort lines of text                               | `sort names.txt`                      |
+| `uniq`    | Remove duplicate lines (often used with `sort`)  | `sort names.txt \| uniq`              |
+| `cut`     | Extract columns or fields from text              | `cut -d':' -f1 /etc/passwd`           |
+| `awk`     | Advanced text processing and reporting           | `awk '{print $1}' data.txt`           |
+| `sed`     | Stream editor — modify text in files             | `sed 's/error/warning/g' logfile.txt` |
+
+### Creating Directories
+
+You can create a new directory using the `mkdir` command:
+
 ```bash
-# Create a new directory
 $ mkdir folder_name
+# creates a new directory called folder_name
+```
 
-# Remove an empty directory
+### Removing Empty Directories
+Use `rmdir` to delete empty directories:
+```bash
 $ rmdir Personal
-
-# Remove a file
+# removes an empty folder named Personal
+```
+### Removing Files and Directories
+To remove files:
+```bash
 $ rm index.html
-
-# Remove a directory and its contents (recursive)
+# deletes the file index.html
+```
+To remove a directory (and its contents) recursively:
+```bash
 $ rm -r Desktop/Personal
+# deletes the directory 'Personal' inside 'Desktop' and all its contents
+```
+⚠️ Important:
+When using the command line, double-check your path before deleting files — deletions are permanent (they don’t go to Trash).
 
-# Create new files
+### Creating Files
+Use the `touch` command to create one or more new files:
+```bash
 $ touch answer.txt
+# creates a new file named answer.txt
+```
+You can create multiple files at once:
+```bash
 $ touch style.css main.js
+# creates two files: style.css and main.js
 ```
 
-*Notes:*
-Use ```-r``` to remove directories recursively.
-Files deleted with ```rm``` do not go to the trash — deletion is permanent.
-You cannot delete a directory while you are inside it; move to its parent first.
-
-### Terminal Output and Redirection
+### Displaying Text in Terminal
+The `echo` command prints text in the terminal
 ```bash
-# Display text in the terminal
 $ echo "Who is Morty?"
-
-# Write text into a new file
-$ echo "Who is Morty?" > secrets.txt
-
-# Overwrite or append text in an existing file
-$ echo "Who is Morty?" > ~/logs/2020/1/secrets.txt
+Who is Morty?
+# prints "Who is Morty?" to the terminal
 ```
-### Redirecting text between files with cat
+You can also write text to a file:
 ```bash
-# Display file content
+$ echo "Who is Morty?" > secrets.txt
+# creates a file 'secrets.txt' and writes the line inside it
+```
+To overwrite or add text to an existing file:
+```bash
+$ echo "Who is Morty?" > ~/logs/2020/1/secrets.txt
+# writes the line to the specified file, overwriting its contents
+```
+
+### Redirecting File Output
+You can redirect text from one file to another using `cat` and redirection operators.
+
+```<``` → input redirection
+
+```>``` → output redirection
+
+Example:
+```bash
 $ cat a.txt
 AAA
+# displays content of a.txt
 
 $ cat b.txt
 BBB
+# displays content of b.txt
 
-# Copy content from one file to another (overwrite)
 $ cat a.txt > b.txt
+# copies content of a.txt into b.txt, overwriting its content
 ```
-After the last command, both ```a.txt``` and ```b.txt``` will contain the same text (```AAA```).
+After this, both files contain:
+```bash
+AAA
+```
 
 ---
 
-## SSH and Networking
+## SSH & Networking
 
-### What is SSH
-SSH (Secure Shell) is a protocol for secure remote access to another system. It encrypts all communication, protecting passwords, commands, and data transfers.
-Common uses:
-Remote server access
-Secure file transfer (```scp```, ```sftp```)
-Port forwarding or tunneling
+### What is SSH?
+SSH (Secure Shell) is a network protocol used to securely access another computer remotely.
+It encrypts all communication between client and server.
+
+### Main uses:
+
+Remote access to servers or devices.
+Executing commands securely.
+Transferring files (`scp`, `sftp`).
+Tunneling other network traffic.
+### Connect to a server:
 ```bash
-# Basic connection syntax
-$ ssh user@server_ip
+ssh user@server_ip
 ```
+### SSH Keys:
+* Private key stays on the client.
+* Public key goes on the server.
+
+They provide secure passwordless authentication.
 ### Is SSH Always Secure?
-SSH is highly secure when configured properly, but vulnerabilities arise from:
-* Weak passwords → use SSH keys.
-* Outdated versions → keep OpenSSH updated.
+SSH is very secure when properly configured, but risks include:
+
+* Weak passwords → use SSH keys instead.
+* Outdated SSH versions → keep OpenSSH updated.
 * Not verifying host fingerprints → risk of MITM attacks.
-* Default port 22 exposure → change port or limit via firewall.
-* Unprotected private keys → use passphrases and permissions.
+* Exposed port 22 → use a non-standard port or firewall.
+* Stolen private keys → protect with passphrases.
   
-| Setup | Security | Level |
-|-------|----------|-------|
-| Password | login | Medium |
-| Key-based | authentication | Strong |
-| Outdated/misconfigured | setup | Weak |
+| Setup                      | Security Level |
+| -------------------------- | -------------- |
+| Password login             | Medium         |
+| Key-based authentication   | Strong         |
+| Outdated/misconfigured SSH | Weak           |
+
 
 ### SSH Ports
-* Default SSH port: 22 (TCP)
-* Risks: brute-force attacks, scanning
-* Best practices:
- * Use key-based authentication
- * Change default port
- * Limit access by IP
- * Use tools like UFW or Fail2Ban
- * Keep SSH updated
+
+* Default SSH port: TCP 22
+
+#### Risks:
+* Brute-force attacks → disable password logins.
+* Port scanning → change default port or restrict via firewall.
+* Outdated versions → keep updated.
+
+#### Best practices:
+* Use key-based authentication.
+* Change default port.
+* Limit IP access.
+* Use tools like Fail2Ban or UFW.
+
+### Ports on the Client Side
+#### When connecting via SSH:
+* The client does not open permanent ports.
+* It uses a temporary ephemeral port for outbound connection (e.g., Client:54321 → Server:22).
+* The port closes automatically when the session ends.
+
+#### Exceptions:
+Ports open locally only when port forwarding is used.
+
+| Mode | Description        | Open Port                         |
+| ---- | ------------------ | --------------------------------- |
+| `-L` | Local forwarding   | Opens local port (localhost only) |
+| `-R` | Remote forwarding  | Opens port on remote server       |
+| `-D` | Dynamic forwarding | Opens local SOCKS proxy port      |
+
+### Disconnecting from SSH
+To disconnect cleanly:
+``` bash
+exit
+```
+If the session freezes:
+```bash
+~.
+```
+If the terminal is closed, the SSH session ends immediately.
+
+**Best practice**: always use `exit`.
+
+---
+
+## Cybersecurity Basics
+### Overview
+Core cybersecurity principles learned through TryHackMe and self-study:
+
+* Understanding security principles, governance, and regulation.
+* The Cyber Kill Chain model for analyzing attack stages.
+* Fundamental defensive practices (updates, authentication, network segmentation).
+
+---
+
+## QA Engineering Bootcamp Notes
+**Training program**: TripleTen QA Engineer Bootcamp (LATAM)
+
+Focus areas:
+
+* Manual testing & test case design
+* Bug reporting and documentation
+* Python-based test automation
+* API and UI testing fundamentals
+* Practical projects (e.g., Urban Routes, Urban Lunch, Urban Grocers)
+
+---
+
+## Python
+
+
+
+## Future Sections
+These placeholders will be filled as I continue learning:
+
+* Python for Automation
+* Git & GitHub Workflow
+* Networking Deep Dive
+* Kali Linux Tools
+* Advanced QA Techniques
+* Cloud & Virtualization Basics
+
+
+
+
