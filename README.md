@@ -177,6 +177,19 @@ After this, both files contain:
 AAA
 ```
 
+### Appending File Content with `cat` and `>>` Operator
+In this example, the content of a.txt is copied to the end of b.txt.
+The >> operator is used to append data instead of overwriting it.
+```bash
+$ cat a.txt >> b.txt
+# the content of a.txt was copied to b.txt
+
+$ cat b.txt
+BBB
+AAA
+# a.txt content was appended to b.txt without overwriting existing data
+```
+
 ---
 
 ## SSH & Networking
