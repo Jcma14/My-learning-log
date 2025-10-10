@@ -1,3 +1,5 @@
+<!-- === START: DESCRIPTION AND TABLE OF CONTENTS SECTION === -->
+
 # Personal Learning Log: My Tech Journey
 
 This repository documents my personal journey through **Cybersecurity**, **Networking**, and **QA Engineering**.  
@@ -15,6 +17,8 @@ These notes come from hands-on labs, formal training, and self-study — continu
 5. [Future Sections](#future-sections)
 
 ---
+
+<!-- === START: LINUX AND COMMAND LINE SECTION === -->
 
 ## Linux Fundamentals
 ### Directory Navigation
@@ -190,7 +194,55 @@ AAA
 # a.txt content was appended to b.txt without overwriting existing data
 ```
 
+### Copying Files and Directories with `cp`
+The `cp` (copy-paste) command copies a directory or file. After the command, you must specify:
+1. The name and path of the source file.
+2. The name and path of the destination file.
+
+If the file is copied from or to the current directory, you can omit the path.
+
+Examples:
+``` bash
+$ cp brothers.html sisters.html
+# copied the file brothers.html and named the new copy sisters.html
+# both files are in the current folder
+
+$ cp ../docs/brothers.html sisters.html
+# specified the path to the source file brothers.html
+# the copy is saved in the current folder as sisters.html
+
+$ cp ../docs/brothers.html ../Documents/
+# copied brothers.html to the Documents directory
+```
+To copy an entire directory, use the `-r` flag.
+
+### Moving and Renaming Files and Directories with `mv`
+The `mv` (move) command moves a folder or file and works similarly to the `cp` command: you specify the file name and the destination path. Always specify the path to the new location.
+
+Examples:
+```bash
+$ mv card.txt ~/
+# card.txt moved from the current directory to the home directory
+
+$ mv card.txt /home/logs/2020/
+# card.txt moved using an absolute path
+```
+The `mv` command can also rename a file. To do this, provide the new file name as the second argument.
+```bash
+$ mv my_app.ssh your_app.ssh
+# renamed my_app.ssh to your_app.ssh
+
+$ mv /home/logs/2020/card.txt /home/logs/2020/cards.txt
+# moved card.txt and renamed it to cards.txt
+# absolute path specified
+```
+If you are already in the directory where you want to move or copy a file, you can omit the source path and just specify the filename.
+
+<!-- === END: LINUX AND COMMAND LINE SECTION === -->
+
 ---
+
+<!-- === START: NETWORKING SECTION === -->
 
 ## SSH & Networking
 
@@ -272,7 +324,10 @@ If the terminal is closed, the SSH session ends immediately.
 
 **Best practice**: always use `exit`.
 
+<!-- === END: NETWORKING SECTION === -->
 ---
+
+<!-- === START: CYBERSECURITY SECTION === -->
 
 ## Cybersecurity Basics
 ### Overview
@@ -282,7 +337,11 @@ Core cybersecurity principles learned through TryHackMe and self-study:
 * The Cyber Kill Chain model for analyzing attack stages.
 * Fundamental defensive practices (updates, authentication, network segmentation).
 
+<!-- === END: CYBERSECURITY SECTION === -->
+
 ---
+
+<!-- === START: QA BOOTCAMP SECTION === -->
 
 ## QA Engineering Bootcamp Notes
 **Training program**: TripleTen QA Engineer Bootcamp (LATAM)
@@ -295,7 +354,11 @@ Focus areas:
 * API and UI testing fundamentals
 * Practical projects (e.g., Urban Routes, Urban Lunch, Urban Grocers)
 
+<!-- === END: CYBERSECURITY SECTION === -->
+
 ---
+
+<!-- === START: PYTHON SECTION === -->
 
 ## Python
 
@@ -309,6 +372,7 @@ This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet
 
 [📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
 
+<!-- === END: PYTHON SECTION === -->
 ---
 
 ## Future Sections
