@@ -1,5 +1,3 @@
-<!-- === START: DESCRIPTION AND TABLE OF CONTENTS SECTION === -->
-
 # Personal Learning Log: My Tech Journey
 
 This repository documents my personal journey through **Cybersecurity**, **Networking**, and **QA Engineering**.  
@@ -11,16 +9,18 @@ These notes come from hands-on labs, formal training, and self-study — continu
 ## 🧭 Table of Contents
 
 1. [Linux Fundamentals](#linux-fundamentals)  
-2. [SSH & Networking](#ssh--networking)  
+2. [SSH & Networking](#ssh-and-networking)  
 3. [Cybersecurity Basics](#cybersecurity-basics)  
 4. [QA Engineering Bootcamp Notes](#qa-engineering-bootcamp-notes)  
 5. [Future Sections](#future-sections)
 
 ---
 
-<!-- === START: LINUX AND COMMAND LINE SECTION === -->
+<!-- Start: Linux & Command Line Section -->
 
-## Linux Fundamentals
+<details>
+  <summary><h2>Linux Fundamentals</h2></summary>
+   
 ### Directory Navigation
 
 | Command | Meaning | Example |
@@ -279,14 +279,16 @@ $ grep -n "503 3312" apache_2020-01-01.txt
 1583
 ```
 ✅ The string `"503 3312"` appears on line 1583.
+</details>
 
-<!-- === END: LINUX AND COMMAND LINE SECTION === -->
+<!-- End: Linux & Command Line Section -->
 
 ---
 
-<!-- === START: NETWORKING SECTION === -->
+<!-- Start: Networking Section -->
 
-## SSH & Networking
+<details>
+  <summary><h2>SSH AND NETWORKING</h2></summary>
 
 ### What is SSH?
 SSH (Secure Shell) is a network protocol used to securely access another computer remotely.
@@ -365,27 +367,33 @@ If the session freezes:
 If the terminal is closed, the SSH session ends immediately.
 
 **Best practice**: always use `exit`.
+</details>
 
-<!-- === END: NETWORKING SECTION === -->
+<!-- End: Networking Section -->
 ---
 
-<!-- === START: CYBERSECURITY SECTION === -->
+<!-- Start: Cybersecurity Section -->
 
-## Cybersecurity Basics
+<details>
+  <summary><h2>Cybersecurity Basics</h2></summary>
+   
 ### Overview
 Core cybersecurity principles learned through TryHackMe and self-study:
 
 * Understanding security principles, governance, and regulation.
 * The Cyber Kill Chain model for analyzing attack stages.
 * Fundamental defensive practices (updates, authentication, network segmentation).
+</details>
 
-<!-- === END: CYBERSECURITY SECTION === -->
+<!-- End: Cybersecurity Section -->
 
 ---
 
-<!-- === START: QA BOOTCAMP SECTION === -->
+<!-- Start: Bootcamp Section -->
 
-## QA Engineering Bootcamp Notes
+<details>
+  <summary><h2>QA Engineering Bootcamp Notes</h2></summary>
+
 **Training program**: TripleTen QA Engineer Bootcamp (LATAM)
 
 Focus areas:
@@ -395,14 +403,16 @@ Focus areas:
 * Python-based test automation
 * API and UI testing fundamentals
 * Practical projects (e.g., Urban Routes, Urban Lunch, Urban Grocers)
+</details>
 
-<!-- === END: CYBERSECURITY SECTION === -->
+<!-- End: Bootcamp Section -->
 
 ---
 
-<!-- === START: PYTHON SECTION === -->
+<!-- Start: Python Section -->
 
-## Python
+<details>
+  <summary><h2>Python</h2></summary>
 
 ### 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
 
@@ -413,11 +423,16 @@ This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet
 > ⚖️ **Note:** All rights belong to the original author. This resource is included here solely for study and reference.
 
 [📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
+</details>
 
-<!-- === END: PYTHON SECTION === -->
+<!-- End: Python Section -->
 ---
 
-## Future Sections
+<!-- Start: Future Sections -->
+
+<details>
+  <summary><h2>Future Sections</h2></summary>
+   
 These placeholders will be filled as I continue learning:
 
 * Python for Automation
@@ -426,7 +441,7 @@ These placeholders will be filled as I continue learning:
 * Kali Linux Tools
 * Advanced QA Techniques
 * Cloud & Virtualization Basics
-
+</details>
 
 
 
