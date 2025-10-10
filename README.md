@@ -238,6 +238,48 @@ $ mv /home/logs/2020/card.txt /home/logs/2020/cards.txt
 ```
 If you are already in the directory where you want to move or copy a file, you can omit the source path and just specify the filename.
 
+### Filtering File Content with `grep`
+When you have many log files in a directory and only one of them contains an error, you can use the `grep` command (Global Regular Expression Print) to search for specific text or patterns across files.
+
+'grep' is a file search utility that finds and displays lines matching a given expression.
+If no file is specified, it searches across all files in the current directory.
+
+Syntax:
+```bash
+$ grep [Flag(s)] PATTERN [Address]
+```
+- `PATTERN` → the text you’re looking for (one or more words).
+   - Single word: `Frodo`
+   - Multiple words: `"Frodo Baggins"` (use quotes)
+   
+- `[Address]` → the file or directory path.
+
+- `Flag(s)]` → optional arguments that modify the search behavior (e.g., ignore case, recursive search).
+
+### Common Flags for `grep`
+`-R` — Recursive Search:
+The `-R` flag tells grep to search through all files and subdirectories.
+```bash
+$ grep -R DELETE ~/logs/2020/1
+```
+`-n` — Show Line Numbers:
+The `-n` flag displays the line number where each match occurs.
+```bash
+$ grep -n DELETE apache_2020-01-01.txt
+```
+#### Example: Search for a String and Display Line Number
+You are in your home directory. Go to `~/logs/2020/1`.
+
+Find the line number that contains `"503 3312"` in the file `apache_2020-01-01.txt`.
+```bash
+$ grep -n "503 3312" apache_2020-01-01.txt
+```
+#### Output:
+```bash
+1583
+```
+✅ The string `"503 3312"` appears on line 1583.
+
 <!-- === END: LINUX AND COMMAND LINE SECTION === -->
 
 ---
