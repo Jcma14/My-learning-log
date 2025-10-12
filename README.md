@@ -441,6 +441,7 @@ These placeholders will be filled as I continue learning:
 * Kali Linux Tools
 * Advanced QA Techniques
 * Cloud & Virtualization Basics
+
 </details>
 
 
