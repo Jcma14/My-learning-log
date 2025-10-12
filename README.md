@@ -436,12 +436,16 @@ This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet
 These placeholders will be filled as I continue learning:
 
 * Python for Automation
-* Git & GitHub Workflow
-* Networking Deep Dive
-* Kali Linux Tools
-* Advanced QA Techniques
-* Cloud & Virtualization Basics
 
+* Git & GitHub Workflow
+
+* Networking Deep Dive
+
+* Kali Linux Tools
+
+* Advanced QA Techniques
+
+* Cloud & Virtualization Basics
 </details>
 
 
