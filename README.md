@@ -8,7 +8,7 @@ These notes come from hands-on labs, formal training, and self-study — continu
 
 ## 🧭 Table of Contents
 
-1. [Linux Fundamentals](#linux-fundamentals)  
+1. [Linux Fundamentals for Software QA](#linux-fundamentals-for-software-qa)  
 2. [SSH & Networking](#ssh-and-networking)  
 3. [Cybersecurity Basics](#cybersecurity-basics)  
 4. [QA Engineering Bootcamp Notes](#qa-engineering-bootcamp-notes)  
@@ -19,7 +19,7 @@ These notes come from hands-on labs, formal training, and self-study — continu
 <!-- Start: Linux & Command Line Section -->
 
 <details>
-  <summary><h2>Linux Fundamentals</h2></summary>
+  <summary><h2>Linux Fundamentals for Software QA</h2></summary>
    
 ### Directory Navigation
 
@@ -279,7 +279,50 @@ $ grep -n "503 3312" apache_2020-01-01.txt
 1583
 ```
 ✅ The string `"503 3312"` appears on line 1583.
+
+#### Viewing Context Around Matches with grep
+
+In some cases, it’s important to see not only the matching line but also the surrounding lines — for example, to understand what happened before an error in the logs.
+
+To show adjacent lines, use the flags `-B`, `-A`, and `-C`.
+
+| Flag | Meaning        | Description                                                      |
+| ---- | -------------- | ---------------------------------------------------------------- |
+| `-B` | before-context | Shows the number of lines **before** the matching line           |
+| `-A` | after-context  | Shows the number of lines **after** the matching line            |
+| `-C` | context        | Shows the number of lines **before and after** the matching line |
+
+Example: 
+```bash
+$ grep -C 1 DELETE ~/logs/2020/1/apache_2020-01-01.txt
+```
+This command shows the line containing `DELETE` plus one line above and below it.
+
+#### Counting Matches
+Use the `-c` flag to return only the number of lines that match your search term:
+Example:
+```bash
+$ grep -c DELETE ~/logs/2020/1/apache_2020-01-01.txt
+```
+#### Using Command Templates
+
+Sometimes the term `DELETE` appears with different cases or abbreviations like `DEL`. You can handle this with:
+
+- `-i` → ignores uppercase/lowercase
+
+- `*` (asterisk) → matches any number of characters
+
+Example:
+```bash
+$ grep -i DEL* ~/logs/2020/1/apache_2020-01-31.txt
+```
+
+
+
+
 </details>
+
+
 
 <!-- End: Linux & Command Line Section -->
 
