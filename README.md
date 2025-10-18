@@ -1,8 +1,28 @@
-# Personal Learning Log: My Tech Journey
+<div align="center">
 
-This repository documents my personal journey through **QA Engineering**, **Cybersecurity**, and **Networking**, and .  
-It serves as a central place to store my technical notes, code examples, and reflections as I grow in the IT field.  
-These notes come from hands-on labs, formal training, and self-study — continuously updated as I learn.
+# 🌟 Personal Learning Log: My Tech Journey
+
+<img src="https://img.freepik.com/premium-photo/digital-portrait-womans-profile_204719-11833.jpg" width="100%" alt="Tech banner"/>
+
+### 🚀 Exploring QA Engineering • Cybersecurity • Networking
+
+This repository documents my personal journey through **QA Engineering**, **Cybersecurity**, and **Networking**.  
+It serves as a central place to store my **technical notes**, **code examples**, and **learning reflections** as I grow in the IT field.  
+All notes come from **hands-on labs**, **formal training**, and **self-study** — continuously updated as I learn.  
+
+---
+
+### 🧠 Tech Stack & Tools
+
+![QA](https://img.shields.io/badge/QA%20Engineering-blueviolet?style=for-the-badge&logo=testcafe&logoColor=white)
+![Cybersecurity](https://img.shields.io/badge/Cybersecurity-darkred?style=for-the-badge&logo=kalilinux&logoColor=white)
+![Networking](https://img.shields.io/badge/Networking-0A66C2?style=for-the-badge&logo=cisco&logoColor=white)
+![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+
+</div>
 
 ---
 
