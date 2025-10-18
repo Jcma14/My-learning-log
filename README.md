@@ -1,25 +1,15 @@
 # Personal Learning Log: My Tech Journey
 
-This repository documents my personal journey through **Cybersecurity**, **Networking**, and **QA Engineering**.  
+This repository documents my personal journey through **QA Engineering**, **Cybersecurity**, and **Networking**, and .  
 It serves as a central place to store my technical notes, code examples, and reflections as I grow in the IT field.  
 These notes come from hands-on labs, formal training, and self-study — continuously updated as I learn.
-
----
-
-## 🧭 Table of Contents
-
-1. [Linux Fundamentals for Software QA](#linux-fundamentals-for-software-qa)  
-2. [SSH & Networking](#ssh-and-networking)  
-3. [Cybersecurity Basics](#cybersecurity-basics)  
-4. [QA Engineering Bootcamp Notes](#qa-engineering-bootcamp-notes)  
-5. [Future Sections](#future-sections)
 
 ---
 
 <!-- Start: Linux & Command Line Section -->
 
 <details>
-  <summary><h2>Linux Fundamentals for Software QA</h2></summary>
+  <summary><h2>QA Engineering: Linux and Command Line Fundamentals</h2></summary>
    
 ### Directory Navigation
 
@@ -257,6 +247,17 @@ $ grep [Flag(s)] PATTERN [Address]
 - `Flag(s)]` → optional arguments that modify the search behavior (e.g., ignore case, recursive search).
 
 ### Common Flags for `grep`
+
+| Flag | Meaning                                            | Example                                |
+| ---- | -------------------------------------------------- | -------------------------------------- |
+| `-R` | Search recursively in all files inside a directory | `grep -R DELETE ~/logs/2020/1`         |
+| `-n` | Show the **line number** for each match            | `grep -n DELETE apache_2020-01-01.txt` |
+| `-i` | Ignore **case sensitivity** (uppercase/lowercase)  | `grep -i delete apache_2020-01-01.txt` |
+| `-B` | Show lines **before** the match                    | `grep -B 2 ERROR system.log`           |
+| `-A` | Show lines **after** the match                     | `grep -A 3 ERROR system.log`           |
+| `-C` | Show lines **before and after** the match          | `grep -C 1 ERROR system.log`           |
+| `-c` | Show only the **count** of matching lines          | `grep -c DELETE system.log`            |
+
 `-R` — Recursive Search:
 The `-R` flag tells grep to search through all files and subdirectories.
 ```bash
@@ -304,6 +305,24 @@ Example:
 ```bash
 $ grep -c DELETE ~/logs/2020/1/apache_2020-01-01.txt
 ```
+#### Pattern Matching Symbols
+
+| Symbol | Description                         | Example                                                             |
+| ------ | ----------------------------------- | ------------------------------------------------------------------- |
+| `[]`   | Match **one of several characters** | `grep -i N[ua]m1 Log1.txt` → matches *Num1*, *Nam1*, *num1*, *nam1* |
+| `.`    | Matches **any single character**    | `grep "204 3.96" apache_2020-01-01.txt`                             |
+| `^`    | Matches **the beginning** of a line | `grep "^Start" text.txt` → shows lines starting with “Start”        |
+| `$`    | Matches **the end** of a line       | `grep "End$" text.txt` → shows lines ending with “End”              |
+| `^$`   | Matches **empty lines**             | `grep ^$ text.txt` → finds blank lines                              |
+
+#### Saving `grep` Output to a File
+```bash
+$ grep ERROR /test1/test2/test_Logs/Log1.txt > errors.txt
+```
+All lines containing the word “ERROR” are saved into errors.txt.
+
+⚠️ If the file already exists, it will be overwritten.
+
 #### Using Command Templates
 
 Sometimes the term `DELETE` appears with different cases or abbreviations like `DEL`. You can handle this with:
@@ -316,22 +335,68 @@ Example:
 ```bash
 $ grep -i DEL* ~/logs/2020/1/apache_2020-01-31.txt
 ```
+#### Useful Command Line Tricks
 
+| 🔹 **Command / Shortcut**    | 🧩 **Description**                                        | 💻 **Example / Notes**                                                  |
+| ---------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **↑ / ↓ (Arrow keys)**       | Browse through previous commands in your command history. | Press `↑` to recall the last command, `↑↑` twice for the one before it. |
+| **Ctrl + A**                 | Move cursor to the **beginning** of the command line.     | Great for quickly editing the start of a long command.                  |
+| **Ctrl + E**                 | Move cursor to the **end** of the command line.           | Jump to the end instantly.                                              |
+| **Ctrl + U**                 | **Clear** the entire command line.                        | Deletes everything currently typed.                                     |
+| **Ctrl + C**                 | **Interrupt** a running process.                          | Use when a command hangs or runs too long.                              |
+| **`mv *.txt ~/Desktop`**     | Move all `.txt` files to the Desktop using wildcards.     | Moves every text file from current directory.                           |
+| **`cp j*.txt ~`**            | Copy all files starting with “j” and ending in `.txt`.    | Copies `jodorowsky_film.txt`, `jodorowsky_comics.txt`, etc.             |
+| **`history`**                | Show your command history.                                | Lists all commands used in current session.                             |
+| **`history > commands.log`** | Save command history to a file.                           | Stores full history in `commands.log`.                                  |
 
+</details>
+
+<!-- End: Linux & Command Line Section -->
+
+---
+
+<!-- Start: QA Engineering: SQL as a Data Management Tool -->
+
+<details>
+  <summary><h2>QA Engineering: SQL as a Data Management Tool</h2></summary>
+
+SQL (Structured Query Language) is a programming language designed to manage and manipulate data in relational databases.
+
+#### Key Concepts 
+
+| Term                                  | Definition                                                                                                     |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Database**                          | A structured repository of information.                                                                        |
+| **Entity**                            | A group of objects that share common characteristics.                                                          |
+| **Relational Database**               | A type of database where entities are **tables** and objects are **rows**.                                     |
+| **DBMS (Database Management System)** | Software that allows you to create, manage, and edit databases and tables.                                     |
+| **Table**                             | A collection of rows and columns representing structured data.                                                 |
+| **Field**                             | A column in a table that defines a specific attribute and has a name and data type.                            |
+| **Record**                            | A row in a table containing data about one object.                                                             |
+| **Cell**                              | The intersection of a row and column.                                                                          |
+| **Primary Key**                       | A unique field (or group of fields) used to identify records. It must not contain duplicates or `NULL` values. |
+| **Query**                             | A structured SQL command that specifies **what data to retrieve** and **how to process it**.                   |
+
+#### Comments in SQL
+```bash
+-- Single-line comment
+
+/* Multi-line
+   comment */
+```
 
 
 </details>
 
 
-
-<!-- End: Linux & Command Line Section -->
+<!-- End: QA Engineering: SQL as a Data Management Tool -->
 
 ---
 
 <!-- Start: Networking Section -->
 
 <details>
-  <summary><h2>SSH AND NETWORKING</h2></summary>
+  <summary><h2>QA Engineering: SSH And Networking</h2></summary>
 
 ### What is SSH?
 SSH (Secure Shell) is a network protocol used to securely access another computer remotely.
@@ -429,26 +494,6 @@ Core cybersecurity principles learned through TryHackMe and self-study:
 </details>
 
 <!-- End: Cybersecurity Section -->
-
----
-
-<!-- Start: Bootcamp Section -->
-
-<details>
-  <summary><h2>QA Engineering Bootcamp Notes</h2></summary>
-
-**Training program**: TripleTen QA Engineer Bootcamp (LATAM)
-
-Focus areas:
-
-* Manual testing & test case design
-* Bug reporting and documentation
-* Python-based test automation
-* API and UI testing fundamentals
-* Practical projects (e.g., Urban Routes, Urban Lunch, Urban Grocers)
-</details>
-
-<!-- End: Bootcamp Section -->
 
 ---
 
