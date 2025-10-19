@@ -2,7 +2,7 @@
 
 # 🌟 Personal Learning Log: My Tech Journey
 
-<img src="https://img.freepik.com/premium-photo/digital-portrait-womans-profile_204719-11833.jpg" width="100%" alt="Tech banner"/>
+<img src="assets/Neon Green and Black Tech Virtual Background.png" width="90%" alt="Tech banner"/>
 
 ### 🚀 Exploring QA Engineering • Cybersecurity • Networking
 
@@ -382,7 +382,7 @@ $ grep -i DEL* ~/logs/2020/1/apache_2020-01-31.txt
 
 SQL (Structured Query Language) is a programming language designed to manage and manipulate data in relational databases.
 
-#### Key Concepts 
+### Key Concepts 
 
 | Term                                  | Definition                                                                                                     |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -397,7 +397,7 @@ SQL (Structured Query Language) is a programming language designed to manage and
 | **Primary Key**                       | A unique field (or group of fields) used to identify records. It must not contain duplicates or `NULL` values. |
 | **Query**                             | A structured SQL command that specifies **what data to retrieve** and **how to process it**.                   |
 
-#### Comments in SQL
+### Comments in SQL
 ```bash
 -- Single-line comment
 
@@ -405,7 +405,114 @@ SQL (Structured Query Language) is a programming language designed to manage and
    comment */
 ```
 
+### Basic SELECT Queries
 
+Select specific columns:
+```bash
+SELECT column_name_1, column_name_2, column_name_3
+FROM table_name;
+```
+Select all columns:
+```bash
+SELECT *
+FROM table_name;
+```
+Select with condition:
+```bash
+SELECT column_name_1, column_name_2
+FROM table_name
+WHERE condition;
+```
+
+### Filtering Data
+
+Select rows where a value is between two values:
+```bash
+SELECT *
+FROM table_name
+WHERE field_1 BETWEEN value_1 AND value_2;
+```
+Select rows where values are in a specific list:
+```bash
+SELECT *
+FROM table_name
+WHERE column_name IN ('value_1', 'value_2', 'value_3');
+```
+
+### Aggregate Functions
+```bash
+SELECT 
+COUNT(*) AS total_rows,
+COUNT(column) AS non_null_rows,
+COUNT(DISTINCT column) AS unique_values,
+SUM(column) AS total_sum,
+AVG(column) AS average_value,
+MIN(column) AS min_value,
+MAX(column) AS max_value
+FROM table_name;
+```
+
+### Type Conversion
+```bash
+SELECT CAST(column_name AS data_type)
+-- or
+SELECT column_name :: data_type
+```
+
+### Grouping and Sorting
+Group Data:
+```bash
+SELECT field_1, field_2, AGGREGATE_FUNCTION(field) AS result
+FROM table_name
+WHERE condition
+GROUP BY field_1, field_2;
+```
+Order results:
+```bash
+SELECT field_1, field_2, AGGREGATE_FUNCTION(field) AS result
+FROM table_name
+WHERE condition
+GROUP BY field_1, field_2
+ORDER BY field_1 DESC, field_2 ASC
+LIMIT n;
+```
+
+### Managing Data
+Insert data:
+```bash
+INSERT INTO table_name (column_1, column_2, column_3)
+VALUES (value_1, value_2, value_3);
+```
+Update data:
+``` bash
+UPDATE table_name
+SET column_name = new_value
+WHERE condition;
+```
+Delete data:
+```bash
+DELETE FROM table_name
+WHERE condition;
+```
+
+### Summary Table
+
+| Command                             | Description                                          |
+| ----------------------------------- | ---------------------------------------------------- |
+| `SELECT`                            | Retrieves data from a table.                         |
+| `WHERE`                             | Filters data based on a condition.                   |
+| `BETWEEN`                           | Selects data between two values.                     |
+| `IN`                                | Filters data within a specific list.                 |
+| `COUNT`, `SUM`, `AVG`, `MIN`, `MAX` | Aggregate functions to perform calculations.         |
+| `GROUP BY`                          | Groups data by one or more fields.                   |
+| `ORDER BY`                          | Sorts data ascending (`ASC`) or descending (`DESC`). |
+| `INSERT INTO`                       | Adds new data into a table.                          |
+| `UPDATE`                            | Modifies existing records.                           |
+| `DELETE`                            | Removes records from a table.                        |
+| `CAST`                              | Converts a value to a different data type.           |
+
+### Quick Tip
+Use `LIMIT n` to restrict the number of rows returned, especially when testing queries on large datasets.
 </details>
 
 
