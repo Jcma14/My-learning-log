@@ -511,8 +511,163 @@ WHERE condition;
 | `DELETE`                            | Removes records from a table.                        |
 | `CAST`                              | Converts a value to a different data type.           |
 
-### Quick Tip
+#### Quick Tip
 Use `LIMIT n` to restrict the number of rows returned, especially when testing queries on large datasets.
+
+### Types of Relationships Between Tables
+A foreign key (FK) is a column in one table that contains values from another table — it links the two.
+
+| Relationship Type      | Description                                                    | Example                                                                               |
+| ---------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **One-to-One (1:1)**   | Each row in one table is linked to exactly one row in another. | `Employee → Payroll_Info` (each employee has one payroll record).                     |
+| **One-to-Many (1:N)**  | One row in a table corresponds to multiple rows in another.    | `Author → Books` (an author can write many books, but each book has one author).      |
+| **Many-to-Many (N:N)** | Multiple rows in one table relate to multiple rows in another. | Requires a **junction table** combining both primary keys (e.g., `students_courses`). |
+
+### ER Diagrams (Entity-Relationship)
+ER diagrams visually represent how tables and their relationships are structured in a database.
+
+Elements:
+
+* Tables: Shown as rectangles divided into two parts:
+  * Upper part: table name
+  * Lower part: list of fields with keys indicated (`PK` = Primary Key, `FK` = Foreign Key)
+* Relationships: Lines connecting tables, with symbols indicating cardinality (1:1, 1:N, N:N).
+
+### Searching for Empty Values
+Find records with missing or empty fields using `IS NULL` or `IS NOT NULL`.
+
+```bash
+-- Rows with empty values
+SELECT *
+FROM table_name
+WHERE column_name IS NULL;
+
+-- Rows with non-empty values
+SELECT *
+FROM table_name
+WHERE column_name IS NOT NULL;
+```
+
+### Searching Data in Tables
+#### Comparison Operators
+
+| Operator | Meaning                  |
+| -------- | ------------------------ |
+| `=`      | Equal to                 |
+| `!=`     | Not equal to             |
+| `>`      | Greater than             |
+| `<`      | Less than                |
+| `>=`     | Greater than or equal to |
+| `<=`     | Less than or equal to    |
+
+#### Logical Operators
+
+| Operator | Description                        |
+| -------- | ---------------------------------- |
+| `AND`    | Both conditions must be true       |
+| `OR`     | One or both conditions can be true |
+| `NOT`    | The condition must be false        |
+
+#### Special Operators
+
+| Operator  | Description                                        |
+| --------- | -------------------------------------------------- |
+| `BETWEEN` | Selects values within a specific range (inclusive) |
+| `IN`      | Filters rows that match any value from a list      |
+| `LIKE`    | Searches for a pattern using wildcards             |
+
+### `INNER JOIN`
+Returns only the rows that have matching values in both tables (intersection).
+```bash
+SELECT  
+    table1.field_1,
+    table1.field_2,
+    table2.field_n
+FROM table1
+INNER JOIN table2 ON table2.field_1 = table1.field_2;
+```
+Key Points:
+* Table order doesn’t affect the result.
+* Includes only rows that meet the join condition.
+* Be careful with duplicates in 1:N relationships.
+
+### `LEFT JOIN` (Outer Join)
+Selects all rows from the left table and the matching rows from the right table.
+
+Non-matching rows from the right table are filled with `NULL`.
+```bash
+SELECT  
+    table1.field_1,
+    table1.field_2,
+    table2.field_n
+FROM table1
+LEFT JOIN table2 ON table2.field_1 = table1.field_2;
+```
+Key Points:
+* Keeps all rows from the left table.
+* Missing matches from the right table show as NULL.
+* Useful for finding records that exist in one table but not another.
+
+### `RIGHT JOIN` (Outer Join)
+Selects all rows from the right table and the matching rows from the left table.
+
+Non-matching rows from the left table are filled with `NULL`.
+```bash
+SELECT  
+    table1.field_1,
+    table1.field_2,
+    table2.field_n
+FROM table1
+RIGHT JOIN table2 ON table1.field_1 = table2.field_2;
+```
+Key Points:
+* Keeps all rows from the right table.
+* Works similarly to `LEFT JOIN`, just mirrored.
+* Less common but useful in some scenarios.
+
+### Joining Multiple Tables
+You can join more than two tables by chaining multiple `JOIN` statements.
+```bash
+SELECT  
+    table1.field_1,
+    table2.field_2,
+    table3.field_3
+FROM table1
+INNER JOIN table2 ON table1.id = table2.table1_id
+INNER JOIN table3 ON table2.id = table3.table2_id;
+```
+#### Things to Remember:
+* Each new JOIN builds on the previous one.
+* You can mix different join types (INNER, LEFT, RIGHT).
+* The order of joins can affect results.
+* Always double-check each ON condition.
+
+Example:
+```bash
+SELECT  
+    customers.name,
+    orders.order_date,
+    products.product_name
+FROM customers
+INNER JOIN orders ON customers.id = orders.customer_id
+INNER JOIN order_items ON orders.id = order_items.order_id
+INNER JOIN products ON order_items.product_id = products.id;
+```
+
+#### Quick Summary
+
+| Concept                   | Description                             |
+| ------------------------- | --------------------------------------- |
+| **Foreign Key**           | A column linking two tables.            |
+| **ER Diagram**            | Visual map of tables and relationships. |
+| **IS NULL / IS NOT NULL** | Filters empty or non-empty data.        |
+| **Comparison Operators**  | `=`, `!=`, `>`, `<`, `>=`, `<=`         |
+| **Logical Operators**     | `AND`, `OR`, `NOT`                      |
+| **JOINs**                 | Combine data from related tables.       |
+| **LEFT JOIN**             | Keep all records from the left table.   |
+| **RIGHT JOIN**            | Keep all records from the right table.  |
+| **Multiple JOINs**        | Combine three or more tables.           |
+
 </details>
 
 
