@@ -994,6 +994,27 @@ You can modify a list:
 ```python
 fruits.append("kiwi")
 ```
+  
+## Tuples
+A tuple is similar to a list but cannot be changed (immutable).
+```python
+colors = ("red", "green", "blue")
+```
+Use tuples when you want to store constant values.
+
+## Dictionaries
+A dictionary stores data as key–value pairs, like a real dictionary.
+```python
+person = {
+    "name": "Camilo",
+    "age": 25,
+    "country": "Australia"
+}
+```
+Access values by key:
+```python
+print(person["name"])    # Camilo
+```
 
 ## Loops
 Loops let you repeat a block of code multiple times. Python has two main loop types: `for` and `while`.
@@ -1044,27 +1065,6 @@ for i in range(5):
     if i == 4:
         break       # stop loop when i == 4
     print(i)        # prints 0, 1, 3
-```
-  
-## Tuples
-A tuple is similar to a list but cannot be changed (immutable).
-```python
-colors = ("red", "green", "blue")
-```
-Use tuples when you want to store constant values.
-
-## Dictionaries
-A dictionary stores data as key–value pairs, like a real dictionary.
-```python
-person = {
-    "name": "Camilo",
-    "age": 25,
-    "country": "Australia"
-}
-```
-Access values by key:
-```python
-print(person["name"])    # Camilo
 ```
 
 ## Type Conversion (Casting)
