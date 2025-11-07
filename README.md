@@ -784,16 +784,6 @@ Core cybersecurity principles learned through TryHackMe and self-study:
 <details>
   <summary><h2>Python</h2></summary>
 
-## 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
-
-This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet Diaries**](https://darknetdiaries.com/), and is shared here for **educational and personal learning purposes**.
-
-> 📝 **Credit:** Original creator — [Jack Rhysider](https://darknetdiaries.com/)  
-> 📄 **Source:** *Python Cheat Sheet (Darknet Diaries)*  
-> ⚖️ **Note:** All rights belong to the original author. This resource is included here solely for study and reference.
-
-[📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
-
 ## 🐍 Python for Test Automation — Introduction to Python
 
 This section covers the fundamentals of Python. 
@@ -1028,7 +1018,7 @@ for i in range(len(fruits)):
     print(i, fruits[i])
 ```
 
-### While loop
+### `while` loop
 * Repeats as long as a condition is True.
 * Useful when the number of iterations depends on runtime conditions.
 
@@ -1089,6 +1079,16 @@ Common conversions:
 * `float()`
 * `str()`
 * `bool()`
+
+## 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
+
+This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet Diaries**](https://darknetdiaries.com/), and is shared here for **educational and personal learning purposes**.
+
+> 📝 **Credit:** Original creator — [Jack Rhysider](https://darknetdiaries.com/)  
+> 📄 **Source:** *Python Cheat Sheet (Darknet Diaries)*  
+> ⚖️ **Note:** All rights belong to the original author. This resource is included here solely for study and reference.
+
+[📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
 
 </details>
 
