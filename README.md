@@ -845,7 +845,6 @@ This is a multi-line
 comment in Python
 """
 ```
-
 ## Variables in Python
 A variable stores data that can change during program execution.
 You do not need to declare the type — Python detects it automatically.
@@ -919,8 +918,177 @@ b = 2.5   # float
 print(a + b)   # 7.5 (result is float)
 ```
 
-## Strings
+## Strings (`str`)
+A string stores text. It must be wrapped in quotes.
+```python
+text1 = "Hello"
+text2 = 'Python'
+```
+Strings can be combined (concatenated):
+```python
+name = "Camilo"
+print("Hello, " + name)
+```
 
+You can also get the lenght of a string:
+```python
+len("Python")   # 6
+```
+
+## Indexing & Slicing (Indexation)
+
+Indexing and slicing let you access elements or sub-parts of sequences: lists, tuples, strings.
+
+### Indexing
+* Python uses zero-based indexing: the first element is at index 0.
+* Negative indices start from the end: -1 is the last element.
+
+#### Examples
+```python
+fruits = ["apple", "banana", "orange"]
+print(fruits[0])   # apple
+print(fruits[-1])  # orange
+```
+Strings use the same indexing rules:
+```python
+text = "Python"
+print(text[0])     # 'P'
+print(text[-2])    # 'o'
+```
+
+### Slicing
+* Syntax: sequence[start:stop:step]
+* start is inclusive, stop is exclusive.
+* step is optional (default 1).
+* Omit start to begin at 0, omit stop to go to the end.
+
+#### Examples
+```python
+numbers = [0,1,2,3,4,5]
+print(numbers[1:4])   # [1, 2, 3]    (elements 1,2,3)
+print(numbers[:3])    # [0, 1, 2]    (start to index 2)
+print(numbers[3:])    # [3, 4, 5]    (index 3 to end)
+print(numbers[::2])   # [0, 2, 4]    (every 2nd element)
+```
+### Common patterns
+* Get last N elements: seq[-N:]
+* Reverse a sequence: seq[::-1]
+
+#### Examples
+```python
+print(numbers[-3:])   # last 3 elements -> [3,4,5]
+print(text[::-1])     # reverse string -> "nohtyP"
+```
+
+## Boolean (`bool`)
+Represents **True** or **False** values.
+Used a lot in automation for conditions and test validations.
+```python
+is_valid = True
+print(is_valid)      # True
+```
+Booleans often come from comparisons:
+```python
+print(4 > 2)   # True
+print(3 == 5)  # False
+```
+
+## Lists
+A list stores multiple values in one variable.
+Lists are ordered, changeable, and can contain different data types.
+```python
+fruits = ["apple", "banana", "orange"]
+print(fruits[1])   # banana
+```
+You can modify a list:
+```python
+fruits.append("kiwi")
+```
+
+## Loops
+Loops let you repeat a block of code multiple times. Python has two main loop types: `for` and `while`.
+
+### `for` loop
+- Iterates over items of a sequence (list, tuple, string) or over a range of numbers.
+- Common when you know the number of iterations or when you want to process every item in a collection.
+
+#### Examples
+```python
+# Iterate directly over a list
+fruits = ["apple", "banana", "orange"]
+for fruit in fruits:
+    print(fruit)
+
+# Iterate using range() — numbers from 0 to 2
+for i in range(3):
+    print(i)   # 0, 1, 2
+
+# Iterate with indices
+for i in range(len(fruits)):
+    print(i, fruits[i])
+```
+
+### While loop
+* Repeats as long as a condition is True.
+* Useful when the number of iterations depends on runtime conditions.
+
+#### Example
+```python
+count = 0
+while count < 3:
+    print("count =", count)
+    count += 1
+```
+
+### Controling loops
+
+* `break` — immediately exit the loop.
+* `continue` — skip the rest of the current iteration and continue with the next one.
+* You can combine conditions to control behavior inside loops.
+
+#### Example
+```python
+for i in range(5):
+    if i == 2:
+        continue    # skip printing 2
+    if i == 4:
+        break       # stop loop when i == 4
+    print(i)        # prints 0, 1, 3
+```
+  
+## Tuples
+A tuple is similar to a list but cannot be changed (immutable).
+```python
+colors = ("red", "green", "blue")
+```
+Use tuples when you want to store constant values.
+
+## Dictionaries
+A dictionary stores data as key–value pairs, like a real dictionary.
+```python
+person = {
+    "name": "Camilo",
+    "age": 25,
+    "country": "Australia"
+}
+```
+Access values by key:
+```python
+print(person["name"])    # Camilo
+```
+
+## Type Conversion (Casting)
+You can convert a value from one type to another:
+```python
+age = "25"
+age = int(age)      # convert string to int
+print(type(age))    # <class 'int'>
+```
+Common conversions:
+* `int()`
+* `float()`
+* `str()`
+* `bool()`
 
 </details>
 
