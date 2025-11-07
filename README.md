@@ -784,7 +784,7 @@ Core cybersecurity principles learned through TryHackMe and self-study:
 <details>
   <summary><h2>Python</h2></summary>
 
-### 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
+## 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
 
 This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet Diaries**](https://darknetdiaries.com/), and is shared here for **educational and personal learning purposes**.
 
@@ -793,6 +793,135 @@ This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet
 > ⚖️ **Note:** All rights belong to the original author. This resource is included here solely for study and reference.
 
 [📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
+
+## 🐍 Python for Test Automation — Introduction to Python
+
+This section covers the fundamentals of Python. 
+It provides a beginner-friendly overview to help build the foundation needed for future test automation.
+
+### What is Python?
+
+Python is a high-level, interpreted programming language that is easy to read and write.  
+It is widely used for automation, software testing, data analysis, web development, and more.
+
+#### Why Python is used in Test Automation:
+- Simple and readable syntax (easy for beginners)
+- Large ecosystem of libraries and frameworks for testing (e.g., `pytest`, `unittest`)
+- Cross-platform: works on Windows, macOS, Linux
+
+### Running Python Code
+
+You can run Python in different ways:
+
+| Method | Description |
+|--------|----------------|
+| Python Interpreter | Run Python directly in the terminal or command prompt |
+| Python Script File `.py` | Write code in a file and execute it |
+| IDE (e.g., PyCharm, VS Code) | Allows writing, running, and debugging Python projects |
+
+#### Example (run in terminal):
+```python
+python3 hello.py
+```
+## Python Syntax Basics
+### Indentation
+Indentation is mandatory in Python. It defines code blocks – not {} brackets like other languages.
+```python
+if 5 > 3:
+    print("Python uses indentation!")
+```
+### Case Sensitivity
+`Variable`, `variable`, and `VARIABLE` are all different.
+
+### Comments
+Used to explain code and make it easier to understand.
+```python
+# This is a single-line comment
+```
+#### Multi-line comment:
+```python
+"""
+This is a multi-line
+comment in Python
+"""
+```
+
+## Variables in Python
+A variable stores data that can change during program execution.
+You do not need to declare the type — Python detects it automatically.
+```python
+name = "Camilo"
+age = 25
+```
+Rules for variable names:
+* Must start with a letter or _
+* Cannot start with a number
+* Cannot contain spaces or symbols like @, $, %
+* Case-sensitive
+
+## Basic Data Types
+
+A **data type** defines the kind of value a variable holds.  
+Python automatically detects the type of data assigned to a variable — this is called **dynamic typing**.
+
+| Data Type         | Example         | Description           |
+| ----------------- | --------------- | --------------------- |
+| `int` (integer)   | `10`            | Whole numbers         |
+| `float` (decimal) | `10.5`          | Numbers with decimals |
+| `str` (string)    | `"Hello"`       | Text                  |
+| `bool` (boolean)  | `True`, `False` | Logical values        |
+
+### Example:
+```python
+age = 25          # int
+price = 9.99      # float
+name = "Camilo"   # string
+is_testing = True # bool
+```
+
+## Input & Output
+### Print Output
+```python
+print("Hello, Python!")
+```
+### User Input
+```python
+name = input("Enter your name: ")
+print("Hello, " + name)
+```
+Note: input() always returns a string.
+
+## Basic Operators
+
+| Operator | Example  | Description                     |
+| -------- | -------- | ------------------------------- |
+| `+`      | `2 + 3`  | Addition                        |
+| `-`      | `5 - 2`  | Subtraction                     |
+| `*`      | `4 * 3`  | Multiplication                  |
+| `/`      | `8 / 2`  | Division (always returns float) |
+| `//`     | `8 // 2` | Floor division (no decimals)    |
+| `%`      | `7 % 3`  | Modulo (remainder)              |
+| `**`     | `2 ** 3` | Exponent (power)                |
+
+## Numeric Data Types
+Python includes two common number types:
+
+| Type    | Description                 | Example                 |
+| ------- | --------------------------- | ----------------------- |
+| `int`   | Whole numbers (no decimals) | `10`, `-3`, `0`         |
+| `float` | Numbers with decimals       | `10.5`, `0.75`, `-3.14` |
+
+Operations apply differently:
+```python
+a = 5     # int
+b = 2.5   # float
+
+print(a + b)   # 7.5 (result is float)
+```
+
+## Strings
+
+
 </details>
 
 <!-- End: Python Section -->
@@ -804,8 +933,6 @@ This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet
   <summary><h2>Future Sections</h2></summary>
    
 These placeholders will be filled as I continue learning:
-
-* Python for Automation
 
 * Git & GitHub Workflow
 
