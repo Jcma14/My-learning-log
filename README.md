@@ -1080,6 +1080,154 @@ Common conversions:
 * `str()`
 * `bool()`
 
+## Functions
+
+Functions are reusable blocks of code that help you avoid repetition and make your programs easier to read, organize, and maintain. This section covers how to define functions, pass arguments, return values, and test functions using `assert`.
+
+### 1. What Is a Function?
+
+A **function** is a named block of code that performs a specific task.  
+Python has many built-in functions (e.g., `print()`), but you can also create your own.
+
+#### Benefits of functions:
+- Avoid repeating the same code  
+- Organize logic into reusable components  
+- Make your code easier to test  
+
+### 2. Defining a Function
+
+To create a function, use the keyword `def` followed by the function name and parentheses.
+
+Example:
+
+```python
+def hello():
+    print("Hello!")
+```
+
+#### Naming conventions:
+- Use lowercase letters
+- Use underscores to separate words
+- Example: say_hello, calculate_total
+The function body is indented with 4 spaces:
+
+```python
+def hello():
+    print("Hello!")   # function body
+```
+To run a function, call it by writing its name followed by parentheses:
+
+```python
+hello()
+```
+
+### 3. Parameters and Arguments
+
+A function can accept parameters — placeholders for data the function needs.
+
+Example:
+```python
+def hello(name):
+    print(name + ", hello!")
+```
+
+When calling the function, pass the **argument**:
+```python
+hello("Andrea")
+# Output: Andrea, hello!
+```
+
+#### Multiple Parameters
+```python
+def greet(name, task):
+    print(name + ", hello! It's time to " + task)
+
+greet("Daniel", "fix bugs")
+greet("Jennifer", "write test cases")
+greet("Gabriel", "lift team morale")
+```
+Order matters:
+- First argument → first parameter
+- Second argument → second parameter
+
+## Functions With Return Values
+
+Functions can return values to be used later in the code.
+Use the keyword `return`.
+
+Example:
+``` python
+def add(a, b):
+    return a + b
+
+result = add(3, 5)
+print(result)   # 8
+```
+#### Example: Calorie Calculator
+``` python
+calories = {
+    "Hamburger": 600,
+    "Cheeseburger": 750,
+    "Veggie Burger": 400,
+    "Vegan Burger": 350,
+    "Fries": 230,
+    "Salad": 15,
+    "Iced Tea": 70,
+    "Lemonade": 90
+}
+
+def calories_counter(item_a, item_b, item_c):
+    return calories[item_a] + calories[item_b] + calories[item_c]
+
+print(calories_counter("Hamburger", "Cheeseburger", "Iced Tea"))
+# Output: 1240
+```
+Explanation:
+- The function receives three dishes as parameters
+- Uses return to add their calorie values
+- The final number is printed when the function is called
+
+## 5. Testing Functions With `assert`
+
+`assert` is used to verify that a condition is True.
+If it's not True, Python raises an AssertionError and stops the program.
+
+Example:
+```python
+assert 5 + 6 == 11  # Test passes
+```
+
+If a test fails:
+``` python
+assert 5 == 4
+```
+
+Python shows:
+``` python
+AssertionError
++5
+-4
+```
+
+#### Why use assert?
+- Helps automate tests
+- Immediately shows mismatched results
+- Prevents the program from continuing with incorrect logic
+
+#### Example: Checking if balance is greater than zero
+``` python
+def test_deposit_more_than_zero():
+    deposit = get_user_deposit()
+    assert deposit > 0
+```
+
+Other valid comparison operators with assert:
+- `==` (equal)
+- `!=` (not equal)
+- `>` (greater than)
+- `<` (less than)
+- `>=`, `<=`
+
 ## 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
 
 This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet Diaries**](https://darknetdiaries.com/), and is shared here for **educational and personal learning purposes**.
