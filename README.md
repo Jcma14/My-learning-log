@@ -1150,7 +1150,7 @@ Order matters:
 - First argument → first parameter
 - Second argument → second parameter
 
-## Functions With Return Values
+### 4. Functions With Return Values
 
 Functions can return values to be used later in the code.
 Use the keyword `return`.
@@ -1187,7 +1187,7 @@ Explanation:
 - Uses return to add their calorie values
 - The final number is printed when the function is called
 
-## 5. Testing Functions With `assert`
+### 5. Testing Functions With `assert`
 
 `assert` is used to verify that a condition is True.
 If it's not True, Python raises an AssertionError and stops the program.
@@ -1227,6 +1227,172 @@ Other valid comparison operators with assert:
 - `>` (greater than)
 - `<` (less than)
 - `>=`, `<=`
+
+## Pytest Basics
+
+Pytest is a testing framework for Python that makes it easy to write, run, and manage automated tests.  
+This section covers how Pytest works, how to install it, how to run tests, and how it is used together with the `requests` library for API testing.
+
+### 1. What Is Pytest?
+
+In Pytest, a **test** is a function whose name starts with the prefix `test_`.
+
+Important rules:
+- Test function names **must start with `test`**
+- Pytest is **case-sensitive**
+  - ✅ `test_login`
+  - ❌ `Test_login`
+
+Example:
+```python
+def test_sum():
+    assert 2 + 3 == 5
+```
+
+### 2. Installing Pytest
+There are two ways to install Pytest.
+
+#### Option 1: Using pip (Terminal)
+```bash
+pip install pytest
+```
+
+If `pip` does not work, try:
+```bash
+pip3 install pytest
+```
+`pip` is Python's built-on package manager used to install libraries.
+
+#### Option 2: Using PyCharm (GUI)
+* Open your project in PyCharm
+* Open the Python Packages tab (bottom panel)
+* Search for pytest
+* Click Install
+
+### 3. Running Tests with Pytest
+
+#### Running tests from the terminal
+Run all tests in the project:
+```bash
+pytest
+```
+Run tests from a specific file:
+```bash
+pytest calc_test.py
+```
+
+#### Running tests from PyCharm interface
+**Run all tests:**
+1. Go to Run → Edit Configurations
+2. Click + Add New Configuration
+3. Select Python tests → pytest
+4. Choose Custom as the target
+5. Click Apply → OK
+6. Click the green ▶️ button to run tests
+   
+**Run tests from a specific file:**
+1. Go to Run → Edit Configurations
+2. Add Python tests → pytest
+3. Leave Script path selected
+4. Choose the test file
+5. Click Apply → OK
+6. Run using the green ▶️ button
+
+**Running a single test from the editor**
+* After installing Pytest, a green arrow appears next to test functions.
+* Click it to run that test only.
+
+### 4. Using the Requests Library (API Testing)
+The requests library is used to send HTTP requests (GET, POST, etc.).
+
+**Installation**
+Install requests using:
+```bash
+pip install requests
+```
+Or via **Python PAckages** in PyCharm.
+
+### 5. Sending a GET Request
+
+**Step 1: Create configuration.py**
+Store base URLs and paths:
+```python
+URL_SERVICE = "https://example.com"
+DOC_PATH = "/docs/"
+```
+**Step 2: Create sender_stand_request.py**
+```python
+import configuration
+import requests
+
+def get_docs():
+    return requests.get(configuration.URL_SERVICE + configuration.DOC_PATH)
+
+response = get_docs()
+print(response.status_code)
+```
+
+#### Common Response Attributes
+
+| Attribute     | Purpose                              |
+| ------------- | ------------------------------------ |
+| `status_code` | HTTP response code                   |
+| `headers`     | Response headers                     |
+| `ok`          | `True` if status code is 2xx or 3xx  |
+| `url`         | Request URL                          |
+| `request`     | Request method                       |
+| `text`        | Response body as text                |
+| `json()`      | Converts response body to dictionary |
+
+### 6. Sending a POST Request
+**Step 1: Add path to configuration.py**
+```python
+CREATE_USER_PATH = "/api/v1/users/"
+```
+**Step 2: Create data.py**
+```python
+headers = {
+    "Content-Type": "application/json"
+}
+
+user_body = {
+    "firstName": "Andrea",
+    "phone": "+11234567890",
+    "address": "123 Elm Street, Hilltop"
+}
+```
+
+**Step 3: Send POST request**
+```python
+import configuration
+import requests
+import data
+
+def post_new_user(body):
+    return requests.post(
+        configuration.URL_SERVICE + configuration.CREATE_USER_PATH,
+        json=body,
+        headers=data.headers
+    )
+
+response = post_new_user(data.user_body)
+print(response.status_code)
+```
+
+### 7. Basic Rules for Writing Automated Tests
+
+To write clean and reliable tests, follow these three rules:
+
+✅ One test → one assertion
+* Each test should verify one condition only.
+
+✅ Independent test data
+* Tests should not depend on shared or modified data.
+
+✅ Independent tests
+* Each test must be able to run alone, in any order.
+
+
 
 ## 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
 
