@@ -1,1431 +1,762 @@
 <div align="center">
 
-# 🌟 Personal Learning Log: My Tech Journey
+# 🛡️ Personal Learning Log: Cybersecurity Journey
 
 <img src="assets/Neon Green and Black Tech Virtual Background.png" width="90%" alt="Tech banner"/>
 
-### 🚀 Exploring QA Engineering • Cybersecurity • Networking
+### Transitioning into Cybersecurity | QA Engineering Background | ECU Master of Cyber Security (2026)
 
-This repository documents my personal journey through **QA Engineering**, **Cybersecurity**, and **Networking**.  
-It serves as a central place to store my **technical notes**, **code examples**, and **learning reflections** as I grow in the IT field.  
-All notes come from **hands-on labs**, **formal training**, and **self-study** — continuously updated as I learn.  
+This repository documents my hands-on journey into cybersecurity, built on a foundation of QA engineering and software testing.  
+Notes come from **TryHackMe labs**, **CTF platforms**, **home lab work**, and **self-study** — written to be clear, practical, and useful for anyone learning the same material.  
+Continuously updated as I progress.
 
 ---
 
 ### 🧠 Tech Stack & Tools
 
-![QA](https://img.shields.io/badge/QA%20Engineering-blueviolet?style=for-the-badge&logo=testcafe&logoColor=white)
 ![Cybersecurity](https://img.shields.io/badge/Cybersecurity-darkred?style=for-the-badge&logo=kalilinux&logoColor=white)
-![Networking](https://img.shields.io/badge/Networking-0A66C2?style=for-the-badge&logo=cisco&logoColor=white)
+![TryHackMe](https://img.shields.io/badge/TryHackMe-212C42?style=for-the-badge&logo=tryhackme&logoColor=white)
+![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
+![Nmap](https://img.shields.io/badge/Nmap-0E83CD?style=for-the-badge&logo=nmap&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+![SQL](https://img.shields.io/badge/KQL%20%2F%20SQL-336791?style=for-the-badge&logo=microsoftazure&logoColor=white)
+![QA](https://img.shields.io/badge/QA%20Engineering-blueviolet?style=for-the-badge&logo=testcafe&logoColor=white)
 
 </div>
 
 ---
 
-<!-- Start: Linux & Command Line Section -->
+## 📚 Contents
+
+| Section | Topics | Source |
+|---|---|---|
+| [🐧 Linux Fundamentals](#-linux-fundamentals--tryhackme) | Core commands, find, grep, shell operators | TryHackMe |
+| [🌐 Network Services](#-network-services--tryhackme) | SMB, Telnet — theory, enumeration, exploitation | TryHackMe |
+| [🗺️ Nmap — Network Scanning](#️-nmap--network-scanning) | Scan types, flags, NSE scripts, recipes | TryHackMe + NetworkChuck |
+| [🧪 CTF Labs — CyLab / picoCTF](#-ctf-labs--cylab--picoctf) | Flags, CyberChef, Linux tools, Python | CyLab Security Academy |
+| [🔍 KC7 — Threat Hunting with KQL](#-kc7--threat-hunting-with-kql) | KQL queries, SOC investigation simulation | KC7 / CyLab |
+| [🛠️ QA Engineering Reference](#️-qa-engineering-reference) | Linux CLI, Python, Pytest, API testing | TripleTen Bootcamp |
+
+---
+
+<!-- ============================================================ -->
+<!-- LINUX FUNDAMENTALS -->
+<!-- ============================================================ -->
 
 <details>
-  <summary><h2>QA Engineering: Linux and Command Line Fundamentals</h2></summary>
-   
-### Directory Navigation
+  <summary><h2>🐧 Linux Fundamentals — TryHackMe</h2></summary>
 
-| Command | Meaning | Example |
-|----------|----------|----------|
-| `.` or no special character | Current directory | `cd ./logs` |
-| `..` | Parent directory | `cd ..` |
-| `/` | Root directory | `cd /` |
-| `~` | Home directory | `cd ~` |
+**Source:** TryHackMe — Linux Fundamentals  
+**Topics:** Core commands, file searching, shell operators
 
-### Linux Command Line Basics
-Here’s a list of the most commonly used and essential Linux commands for beginners.  
-These help you navigate, manage files, and perform basic operations in the terminal.
+Linux is the standard operating system in cybersecurity. Kali Linux, most servers, and most CTF environments run on it. These are the commands used every day in the terminal.
+
+---
+
+### Core Commands
+
+| Command | What it does | Example |
+|---|---|---|
+| `echo` | Print text to the screen | `echo "hello"` |
+| `whoami` | Show which user you're logged in as | `whoami` |
+| `ls` | List files and folders | `ls -la` |
+| `cd` | Move into a folder | `cd Documents` |
+| `pwd` | Show full path of current location | `pwd` |
+| `cat` | Print a file's contents | `cat passwords.txt` |
+| `find` | Search for files by name or type | `find -name passwords.txt` |
+| `grep` | Search inside files for text | `grep "admin" access.log` |
+| `wc` | Count lines, words, or characters | `wc -l access.log` |
+| `mkdir` | Create a new folder | `mkdir my_folder` |
+| `rm` | Remove a file | `rm file.txt` |
+| `rm -r` | Remove a folder and its contents | `rm -r folder_name` |
+| `cp` | Copy a file | `cp file.txt /backup/` |
+| `mv` | Move or rename a file | `mv old.txt new.txt` |
+
+---
+
+### Using `find`
+
+`find` searches the filesystem for files. Useful when you know a filename but not where it is.
+
+```bash
+# Find a specific file by name
+find -name passwords.txt
+
+# Find all files with a certain extension
+find -name *.txt
+
+# Search entire system, suppress permission errors
+find / -name flag.txt 2>/dev/null
+```
+
+> 💡 In CTFs, `find` is essential for hunting flag files hidden deep in a filesystem. The `2>/dev/null` part hides "Permission denied" errors so results are clean.
+
+---
+
+### Using `grep`
+
+`grep` searches **inside** files for a specific word or pattern — much faster than reading files manually.
+
+```bash
+# Find a specific IP in a log file
+grep "81.143.211.90" access.log
+
+# Case-insensitive search
+grep -i "admin" config.txt
+
+# Search recursively through all files in a folder
+grep -r "password" /etc/
+
+# Show line numbers with results
+grep -n "error" app.log
+```
+
+---
+
+### Shell Operators
+
+Operators let you chain commands and control where output goes.
+
+| Operator | What it does | Example |
+|---|---|---|
+| `\|` | Pipe — sends output of one command into the next | `strings file \| grep -i "pico"` |
+| `>` | Redirect output to a file (overwrites) | `echo "hello" > file.txt` |
+| `>>` | Redirect output to a file (appends) | `echo "world" >> file.txt` |
+| `&&` | Run second command only if first succeeds | `mkdir dir && cd dir` |
+| `&` | Run command in the background | `cp large_file /backup/ &` |
+
+> ⚠️ `>` silently overwrites existing files. Always use `>>` if you want to keep existing content.
+
+---
+
+### File Permissions
+
+Every file in Linux has permissions that define who can read, write, or execute it.
+
+```bash
+ls -l                          # View permissions
+chmod 755 script.sh            # Set rwx for owner, rx for others
+chown user:group file          # Change file ownership
+```
+
+Permission format: `-rwxr-xr-x`
+- First character: file type (`-` = file, `d` = directory)
+- Next 3: owner permissions (rwx)
+- Next 3: group permissions (r-x)
+- Last 3: everyone else (r-x)
+
+</details>
+
+---
+
+<!-- ============================================================ -->
+<!-- NETWORK SERVICES -->
+<!-- ============================================================ -->
+
+<details>
+  <summary><h2>🌐 Network Services — TryHackMe</h2></summary>
+
+**Source:** TryHackMe — Network Services  
+**Topics:** SMB and Telnet — understanding, enumeration, and exploitation
+
+---
+
+### SMB — Server Message Block
+
+**SMB** is a protocol that lets computers on the same network share resources — files, folders, and printers. It works on a **client-server model** over **TCP port 445**.
+
+Linux machines use **Samba**, an open-source implementation of SMB, to communicate with Windows systems in mixed environments.
+
+**Why SMB matters in security:**
+- **EternalBlue (MS17-010)** — the exploit behind the 2017 WannaCry ransomware attack, which spread globally via SMB
+- **Misconfigured shares** — servers that allow anonymous access, meaning anyone can connect without a password and browse sensitive files
+- In penetration testing, SMB is one of the first services checked — an open share can give an attacker a foothold into an entire network
+
+---
+
+### Enumerating SMB
+
+Enumeration means gathering as much information as possible before attempting any attack.
+
+**Step 1 — Confirm SMB is running:**
+```bash
+nmap -A -Pn -T4 -p- <IP>
+# Look for port 445 or 139 to be open
+```
+
+**Step 2 — Enumerate with Enum4Linux:**
+
+Enum4Linux is a tool built to extract information from SMB servers.
+
+```bash
+# Full enumeration (recommended starting point)
+enum4linux -a <IP>
+
+# Just list shares
+enum4linux -S <IP>
+
+# Just list users
+enum4linux -U <IP>
+
+# Check password policy
+enum4linux -P <IP>
+```
+
+**What to look for in the output:**
+- Share names — especially `files`, `backup`, `data`, `public`
+- Shares showing `Mapping: OK, Listing: OK` — these allow anonymous access
+- Usernames — real accounts usable in later attacks
+- Password policy weaknesses — no minimum length, no lockout threshold
+
+---
+
+### Exploiting SMB — Anonymous Access
+
+The most common SMB vulnerability isn't a complex exploit — it's misconfiguration. Many servers allow **anonymous access**: connecting without any credentials.
+
+**Connect to a share anonymously using SMBClient:**
+```bash
+smbclient //<IP>/<SHARENAME> -U Anonymous -p 445
+# When prompted for a password → press Enter (leave blank)
+```
+
+**Commands inside the SMB shell:**
+
+| Command | What it does |
+|---|---|
+| `ls` | List files in current directory |
+| `cd <folder>` | Move into a folder |
+| `get <file>` | Download a file to your local machine |
+| `put <file>` | Upload a file |
+| `exit` | Disconnect |
+
+```bash
+smb: \> ls
+smb: \> cd confidential
+smb: \> get passwords.txt
+```
+
+> 💡 As a Security Engineer, finding an anonymously accessible SMB share is a **critical finding**. It means anyone on the network could read sensitive documents, credentials, or backups — and it's often the first step toward full network compromise.
+
+---
+
+### Telnet — Enumeration
+
+Telnet is an old remote access protocol that sends all data — including passwords — in **plain text**. It's largely been replaced by SSH, but still appears in legacy systems, CTFs, and misconfigured environments.
+
+**Enumerate with a thorough Nmap scan:**
+```bash
+nmap -A -Pn -T4 -p- <IP>
+```
+
+| Flag | What it does | Why use it |
+|---|---|---|
+| `-A` | Aggressive — OS detection, version detection, scripts, traceroute | Maximum info in one command |
+| `-Pn` | Skip ping — scan even if host appears offline | Hosts that block ICMP will show as "down" without this |
+| `-T4` | Timing level 4 — faster scan | Good balance of speed and accuracy |
+| `-p-` | All 65,535 ports | Finds services on non-standard ports |
+
+**What to look for:**
+- Any open port — Telnet might be on port 23 or something unexpected like 8012
+- **Service banners** — text the service sends when you connect, often revealing software name, version, or hints about how to proceed
+- OS detection results
+
+```bash
+# Once you find an open port, connect directly
+telnet <IP> <PORT>
+
+# Or use netcat to grab the banner
+nc <IP> <PORT>
+```
+
+> 💡 **Banners are valuable.** When a service responds with text upon connection, that banner often tells you exactly what software is running — and sometimes hints at how to proceed. Never ignore it.
+
+</details>
+
+---
+
+<!-- ============================================================ -->
+<!-- NMAP -->
+<!-- ============================================================ -->
+
+<details>
+  <summary><h2>🗺️ Nmap — Network Scanning</h2></summary>
+
+**Source:** TryHackMe — Further Nmap · NetworkChuck Tutorial  
+**Topics:** Port scanning, scan types, key flags, NSE scripts
+
+In cybersecurity, **you never attack blind**. Nmap (Network Mapper) is the industry-standard tool for reconnaissance — scanning a target's ports, identifying open services, detecting operating systems, and finding known vulnerabilities.
+
+> Every port is like a door. Nmap walks around the building, knocks on every door, and reports back: "this one's open, this one's locked, this one has a firewall in front of it." That report is your map before the real work starts.
+
+---
+
+### Understanding Ports
+
+Every computer has **65,535 ports**. Each port is a numbered channel where a specific service listens for connections.
+
+| Port | Service |
+|---|---|
+| 22 | SSH |
+| 23 | Telnet |
+| 80 | HTTP |
+| 443 | HTTPS |
+| 139 / 445 | SMB (file sharing) |
+| 3389 | RDP (Windows Remote Desktop) |
+
+**Port states Nmap reports:**
+
+| State | Meaning |
+|---|---|
+| `open` | A service is actively listening |
+| `closed` | Port reachable but nothing is listening |
+| `filtered` | A firewall is blocking Nmap — can't determine state |
+
+---
+
+### Scan Types
+
+| Flag | Scan Type | Notes |
+|---|---|---|
+| `-sT` | TCP Connect | Full 3-way handshake. Reliable but logged. No sudo needed. |
+| `-sS` | SYN / Stealth | Sends SYN, gets SYN/ACK, sends RST to abort. Never completes handshake. Faster, less likely to be logged. **Requires sudo.** Default when running as root. |
+| `-sU` | UDP | Scans UDP ports. Much slower than TCP. |
+| `-sN` | TCP Null | No flags set. Evades some firewalls. |
+| `-sF` | TCP FIN | FIN flag only. Similar evasion technique. |
+| `-sX` | Xmas | FIN + PSH + URG flags. Named for lighting up like a Christmas tree. |
+
+**TCP Connect vs SYN — the key difference:**
+
+```
+TCP Connect (-sT):   SYN → SYN/ACK → ACK → RST   (full handshake, appears in logs)
+SYN Scan    (-sS):   SYN → SYN/ACK → RST           (half-open, many apps won't log it)
+```
+
+> ⚠️ "Stealth" is relative — modern IDS/IPS systems absolutely detect SYN scans. Don't rely on them being invisible.
+
+---
+
+### Detection & Information Flags
+
+| Flag | What it does |
+|---|---|
+| `-O` | Detect the target's operating system |
+| `-sV` | Detect service versions (e.g. Apache 2.4.41, OpenSSH 7.9) |
+| `-A` | Aggressive — OS + version detection + script scanning + traceroute |
+| `-sC` | Run default NSE scripts (checks for common vulnerabilities) |
+
+### Port Selection
+
+| Flag | What it does |
+|---|---|
+| `-p 80` | Scan only port 80 |
+| `-p 80,443,445` | Scan specific ports |
+| `-p 1000-2000` | Scan a range |
+| `-p-` | Scan all 65,535 ports |
+| `--top-ports 20` | Scan the 20 most commonly used ports |
+
+### Speed & Output
+
+| Flag | What it does |
+|---|---|
+| `-T0` to `-T5` | Timing: 0 = paranoid/slow, 3 = default, 4 = aggressive, 5 = insane |
+| `-v` / `-vv` | Verbose — show results as they come in |
+| `-oN file.txt` | Save output in readable format |
+| `-oG file.txt` | Save in grepable format |
+| `-oA basename` | Save in all three formats at once |
+
+### NSE Scripts
+
+| Flag | What it does |
+|---|---|
+| `--script=<name>` | Run a specific script |
+| `--script=vuln` | Run all vulnerability detection scripts |
+| `--script=default` | Same as `-sC` |
+
+---
+
+### Common Command Recipes
+
+```bash
+# Quick scan of top 1000 ports
+nmap <IP>
+
+# Full scan — all ports, versions, OS, scripts
+sudo nmap -A -p- <IP>
+
+# Fast stealth scan, all ports
+sudo nmap -sS -T4 -p- <IP>
+
+# Identify services on common ports
+nmap -sV -p 22,80,443,445 <IP>
+
+# Save results to file
+nmap -oN results.txt <IP>
+
+# Run vulnerability scripts
+sudo nmap --script=vuln <IP>
+
+# Find all live hosts on local network
+nmap -sP 192.168.1.0/24
+
+# Scan UDP top ports (slow but important)
+sudo nmap -sU --top-ports 20 <IP>
+```
+
+</details>
+
+---
+
+<!-- ============================================================ -->
+<!-- CTF LABS -->
+<!-- ============================================================ -->
+
+<details>
+  <summary><h2>🧪 CTF Labs — CyLab / picoCTF</h2></summary>
+
+**Platform:** CyLab Security Academy (formerly picoCTF) — Carnegie Mellon University  
+**URL:** https://cylabacademy.org  
+**Path:** Beginner's Guide to the Challenge Library  
+**Progress:** 17/28 modules complete
+
+---
+
+### What is a CTF?
+
+A **Capture the Flag** competition is a cybersecurity challenge where you find hidden strings called **flags** — formatted like `picoCTF{some_text_here}` — by exploiting intentionally vulnerable systems, decoding files, or solving puzzles. CTFs are one of the best hands-on ways to build real security skills.
+
+---
+
+### Progress
+
+| Section | Modules | Status |
+|---|---|---|
+| CTF Onboarding | 3/3 | ✅ Complete |
+| Section 1 — Sanity Checks | 3/3 | ✅ Complete |
+| Section 2 — CyberChef | 4/4 | ✅ Complete |
+| Section 3 — General Skills | 6/6 | ✅ Complete |
+| Section 4 — Python | 1/6 | 🔄 In Progress |
+
+---
+
+### Tools Used
+
+| Tool | What it does | When to use |
+|---|---|---|
+| `cat` | Print file contents | Read any text file |
+| `strings` | Extract readable text from any file | Binary files with hidden flags |
+| `grep` | Search for a pattern in output | Filter large outputs, find flags |
+| `file` | Identify what type a file actually is | Always run first on unknown files |
+| `nc` (netcat) | Connect to a remote server | Challenges with a host + port |
+| `ssh` | Log into a remote machine | Challenges with SSH credentials |
+| `base64 -d` | Decode Base64 strings | Encoded strings in challenges |
+| CyberChef | Browser-based encoder/decoder | ROT13, Base64, hex, and more |
+| `unzip` | Extract zip archives | Compressed file challenges |
+
+---
+
+### Universal CTF Checklist
+
+When you receive a new challenge file, work through this in order:
+
+```bash
+# 1. Find out what type of file it actually is
+file <filename>
+
+# 2. Extract readable text and hunt for the flag
+strings <filename> | grep -i "pico"
+
+# 3. If encoded — open CyberChef and try Base64, ROT13, hex
+
+# 4. If it's a website — view source, check /robots.txt, check JS files
+
+# 5. If given a host + port
+nc <host> <port>
+
+# 6. If given SSH credentials
+ssh user@host -p <port>
+```
+
+</details>
+
+---
+
+<!-- ============================================================ -->
+<!-- KC7 -->
+<!-- ============================================================ -->
+
+<details>
+  <summary><h2>🔍 KC7 — Threat Hunting with KQL</h2></summary>
+
+**Platform:** KC7 — CyLab Security Academy  
+**URL:** https://kc7cyber.com  
+**Role:** SOC Analyst simulation — investigate real-style attacks using log data
+
+---
+
+### What is KC7?
+
+KC7 is a hands-on cybersecurity training platform where you play the role of a **SOC (Security Operations Center) analyst** investigating cyberattacks using log data and KQL queries. Each scenario is a self-contained investigation — you're given access to logs and must figure out what happened.
+
+---
+
+### KQL — Kusto Query Language
+
+KQL is a **read-only query language** used to search and analyse large volumes of log data. Think of it like SQL, but built specifically for security logs and event data. It's used in real-world tools like **Microsoft Sentinel**, **Azure Data Explorer**, and **Defender for Endpoint**.
+
+| Use Case | What analysts do |
+|---|---|
+| **Threat Hunting** | Proactively search logs for hidden attackers before an alert fires |
+| **Incident Investigation** | After a breach, trace exactly what happened — logins, file access, data exfiltration |
+| **Anomaly Detection** | Find unusual patterns like a user logging in at 3am from two countries simultaneously |
+
+---
+
+### KQL Basic Structure
+
+```kql
+TableName
+| operator condition
+| operator condition
+```
+
+Start with the **table**, use `|` to chain operators (just like piping in Linux), and each line filters or transforms the data further.
+
+---
+
+### Operators
+
+**`where`** — filter rows by a condition (like `grep` in Linux):
+```kql
+Employees
+| where role == "Editorial Director"
+```
+
+**`count`** — count how many rows remain:
+```kql
+Email
+| where recipient == "target@example.com"
+| count
+```
+
+**`distinct`** — return only unique values (like `sort | uniq` in Linux):
+```kql
+Email
+| where sender has "suspicious-domain.com"
+| distinct sender
+| count
+```
+
+**`let`** — store a result as a variable to reuse it:
+```kql
+let target_ips = Employees
+| where name has "Mary"
+| distinct ip_addr;
+OutboundNetworkEvents
+| where src_ip in (target_ips)
+| count
+```
+> The semicolon `;` closes the `let` block. The second query runs immediately after using the stored values.
+
+---
+
+### `has` vs `==` vs `contains`
+
+| Operator | Meaning | Example |
+|---|---|---|
+| `==` | Exact match (case-sensitive) | `role == "Admin"` |
+| `has` | Contains a whole word | `sender has "gmail.com"` |
+| `contains` | Contains a substring | `domain contains "hire"` |
+
+---
+
+### Tables Reference
+
+| Table | What it contains |
+|---|---|
+| `Employees` | Staff info: name, role, email, IP, username |
+| `Email` | Email logs: sender, recipient, subject, timestamp |
+| `OutboundNetworkEvents` | Web browsing: source IP, URL, timestamp |
+| `PassiveDns` | DNS records: domains and the IPs they resolved to |
+| `AuthenticationEvents` | Login attempts: username, success/fail, timestamp, IP |
+
+---
+
+### Investigation Log
+
+| # | Scenario | Date | Status |
+|---|---|---|---|
+| 0 | How to Play KC7 | Jun 2026 | ✅ Complete |
+| 1 | Enough Beef for a Burger | Jun 2026 | 🔄 In Progress |
+
+</details>
+
+---
+
+<!-- ============================================================ -->
+<!-- QA ENGINEERING -->
+<!-- ============================================================ -->
+
+<details>
+  <summary><h2>🛠️ QA Engineering Reference</h2></summary>
+
+**Source:** TripleTen QA Engineering Bootcamp  
+**Topics:** Linux CLI, Python basics, Pytest, API testing
+
+This section documents the technical foundations from QA engineering training — Linux command line, Python, automated testing with Pytest, and HTTP/API testing. These skills directly transfer to cybersecurity work.
+
+---
+
+### Linux Command Line
 
 | Command | Description | Example |
-|----------|--------------|----------|
-| `pwd` | Prints the current working directory (where you are) | `pwd` |
-| `ls` | Lists files and folders in the current directory | `ls -l` |
-| `cd` | Changes the current directory | `cd Documents` |
-| `mkdir` | Creates a new directory (folder) | `mkdir new_folder` |
-| `rmdir` | Deletes an **empty** directory | `rmdir old_folder` |
-| `rm` | Removes files | `rm file.txt` |
-| `rm -r` | Removes a directory and its contents recursively | `rm -r folder_name` |
-| `cp` | Copies files or directories | `cp file.txt /home/user/Desktop` |
-| `mv` | Moves or renames files or directories | `mv file.txt newfile.txt` |
-| `touch` | Creates a new empty file or updates its timestamp | `touch notes.txt` |
-| `cat` | Displays the contents of a file | `cat file.txt` |
-| `echo` | Displays text or writes text to a file | `echo "Hello" > greeting.txt` |
-| `man` | Displays the manual for a command (help guide) | `man ls` |
-| `clear` | Clears the terminal screen | `clear` |
-| `history` | Shows a list of recently used commands | `history` |
-| `whoami` | Prints your current username | `whoami` |
-| `uname -a` | Displays system and kernel information | `uname -a` |
-| `df -h` | Shows disk space usage | `df -h` |
-| `du -sh` | Displays the size of the current directory | `du -sh` |
-| `top` | Shows running processes and system resource usage | `top` |
-| `sudo` | Executes a command as a superuser (admin privileges) | `sudo apt update` |
-| `apt update` | Updates the list of available packages | `sudo apt update` |
-| `apt upgrade` | Installs available package upgrades | `sudo apt upgrade` |
-| `exit` | Closes the terminal or SSH session | `exit` |
+|---|---|---|
+| `pwd` | Print current working directory | `pwd` |
+| `ls` | List files and folders | `ls -l` |
+| `cd` | Change directory | `cd Documents` |
+| `mkdir` | Create a new directory | `mkdir new_folder` |
+| `rm` | Remove files | `rm file.txt` |
+| `rm -r` | Remove directory and contents recursively | `rm -r folder_name` |
+| `cp` | Copy files | `cp file.txt /home/user/Desktop` |
+| `mv` | Move or rename files | `mv file.txt newfile.txt` |
+| `touch` | Create a new empty file | `touch notes.txt` |
+| `cat` | Display file contents | `cat file.txt` |
+| `grep` | Search for text inside files | `grep "error" logfile.txt` |
+| `find` | Search for files | `find /home -name notes.txt` |
+| `sudo` | Execute as superuser | `sudo apt update` |
+| `chmod` | Change file permissions | `chmod 755 script.sh` |
+| `chown` | Change file ownership | `sudo chown user:group file.txt` |
 
-💡 **Tip:** Use `--help` after any command (for example, `ls --help`) to quickly see its available options and usage examples.
-
-### Linux File Permissions & Ownership
-
-Linux is a multi-user system where every file and directory has permissions that define **who can read, write, or execute** it.  
-Understanding and managing permissions is essential for security and proper system administration.
-
-| Command | Description | Example |
-|----------|--------------|----------|
-| `ls -l` | Lists files in long format, showing permissions and ownership | `ls -l` |
-| `chmod` | Changes file or directory permissions (read, write, execute) | `chmod 755 script.sh` |
-| `chown` | Changes the ownership of a file or directory | `sudo chown user:group file.txt` |
-| `chgrp` | Changes the group ownership of a file or directory | `sudo chgrp developers project/` |
-| `umask` | Sets default permission settings for new files | `umask 022` |
-
-### File Search & Inspection Commands
-
-| Command   | Description                                      | Example                               |
-| --------- | ------------------------------------------------ | ------------------------------------- |
-| `find`    | Search for files and directories                 | `find /home -name notes.txt`          |
-| `grep`    | Search for text inside files                     | `grep "error" logfile.txt`            |
-| `cat`     | Display file contents                            | `cat notes.txt`                       |
-| `less`    | View file contents one screen at a time          | `less notes.txt`                      |
-| `head`    | Show the first 10 lines of a file                | `head notes.txt`                      |
-| `tail`    | Show the last 10 lines of a file                 | `tail notes.txt`                      |
-| `tail -f` | Continuously monitor new lines (useful for logs) | `tail -f /var/log/syslog`             |
-| `wc`      | Count lines, words, and characters               | `wc notes.txt`                        |
-| `du`      | Show disk usage of files/directories             | `du -h /home/user`                    |
-| `df`      | Show available disk space                        | `df -h`                               |
-| `stat`    | Display detailed file information                | `stat notes.txt`                      |
-| `sort`    | Sort lines of text                               | `sort names.txt`                      |
-| `uniq`    | Remove duplicate lines (often used with `sort`)  | `sort names.txt \| uniq`              |
-| `cut`     | Extract columns or fields from text              | `cut -d':' -f1 /etc/passwd`           |
-| `awk`     | Advanced text processing and reporting           | `awk '{print $1}' data.txt`           |
-| `sed`     | Stream editor — modify text in files             | `sed 's/error/warning/g' logfile.txt` |
-
-### Creating Directories
-
-You can create a new directory using the `mkdir` command:
-
-```bash
-$ mkdir folder_name
-# creates a new directory called folder_name
-```
-
-### Removing Empty Directories
-Use `rmdir` to delete empty directories:
-```bash
-$ rmdir Personal
-# removes an empty folder named Personal
-```
-### Removing Files and Directories
-To remove files:
-```bash
-$ rm index.html
-# deletes the file index.html
-```
-To remove a directory (and its contents) recursively:
-```bash
-$ rm -r Desktop/Personal
-# deletes the directory 'Personal' inside 'Desktop' and all its contents
-```
-⚠️ Important:
-When using the command line, double-check your path before deleting files — deletions are permanent (they don’t go to Trash).
-
-### Creating Files
-Use the `touch` command to create one or more new files:
-```bash
-$ touch answer.txt
-# creates a new file named answer.txt
-```
-You can create multiple files at once:
-```bash
-$ touch style.css main.js
-# creates two files: style.css and main.js
-```
-
-### Displaying Text in Terminal
-The `echo` command prints text in the terminal
-```bash
-$ echo "Who is Morty?"
-Who is Morty?
-# prints "Who is Morty?" to the terminal
-```
-You can also write text to a file:
-```bash
-$ echo "Who is Morty?" > secrets.txt
-# creates a file 'secrets.txt' and writes the line inside it
-```
-To overwrite or add text to an existing file:
-```bash
-$ echo "Who is Morty?" > ~/logs/2020/1/secrets.txt
-# writes the line to the specified file, overwriting its contents
-```
-
-### Redirecting File Output
-You can redirect text from one file to another using `cat` and redirection operators.
-
-```<``` → input redirection
-
-```>``` → output redirection
-
-Example:
-```bash
-$ cat a.txt
-AAA
-# displays content of a.txt
-
-$ cat b.txt
-BBB
-# displays content of b.txt
-
-$ cat a.txt > b.txt
-# copies content of a.txt into b.txt, overwriting its content
-```
-After this, both files contain:
-```bash
-AAA
-```
-
-### Appending File Content with `cat` and `>>` Operator
-In this example, the content of a.txt is copied to the end of b.txt.
-The >> operator is used to append data instead of overwriting it.
-```bash
-$ cat a.txt >> b.txt
-# the content of a.txt was copied to b.txt
-
-$ cat b.txt
-BBB
-AAA
-# a.txt content was appended to b.txt without overwriting existing data
-```
-
-### Copying Files and Directories with `cp`
-The `cp` (copy-paste) command copies a directory or file. After the command, you must specify:
-1. The name and path of the source file.
-2. The name and path of the destination file.
-
-If the file is copied from or to the current directory, you can omit the path.
-
-Examples:
-``` bash
-$ cp brothers.html sisters.html
-# copied the file brothers.html and named the new copy sisters.html
-# both files are in the current folder
-
-$ cp ../docs/brothers.html sisters.html
-# specified the path to the source file brothers.html
-# the copy is saved in the current folder as sisters.html
-
-$ cp ../docs/brothers.html ../Documents/
-# copied brothers.html to the Documents directory
-```
-To copy an entire directory, use the `-r` flag.
-
-### Moving and Renaming Files and Directories with `mv`
-The `mv` (move) command moves a folder or file and works similarly to the `cp` command: you specify the file name and the destination path. Always specify the path to the new location.
-
-Examples:
-```bash
-$ mv card.txt ~/
-# card.txt moved from the current directory to the home directory
-
-$ mv card.txt /home/logs/2020/
-# card.txt moved using an absolute path
-```
-The `mv` command can also rename a file. To do this, provide the new file name as the second argument.
-```bash
-$ mv my_app.ssh your_app.ssh
-# renamed my_app.ssh to your_app.ssh
-
-$ mv /home/logs/2020/card.txt /home/logs/2020/cards.txt
-# moved card.txt and renamed it to cards.txt
-# absolute path specified
-```
-If you are already in the directory where you want to move or copy a file, you can omit the source path and just specify the filename.
-
-### Filtering File Content with `grep`
-When you have many log files in a directory and only one of them contains an error, you can use the `grep` command (Global Regular Expression Print) to search for specific text or patterns across files.
-
-'grep' is a file search utility that finds and displays lines matching a given expression.
-If no file is specified, it searches across all files in the current directory.
-
-Syntax:
-```bash
-$ grep [Flag(s)] PATTERN [Address]
-```
-- `PATTERN` → the text you’re looking for (one or more words).
-   - Single word: `Frodo`
-   - Multiple words: `"Frodo Baggins"` (use quotes)
-   
-- `[Address]` → the file or directory path.
-
-- `Flag(s)]` → optional arguments that modify the search behavior (e.g., ignore case, recursive search).
-
-### Common Flags for `grep`
-
-| Flag | Meaning                                            | Example                                |
-| ---- | -------------------------------------------------- | -------------------------------------- |
-| `-R` | Search recursively in all files inside a directory | `grep -R DELETE ~/logs/2020/1`         |
-| `-n` | Show the **line number** for each match            | `grep -n DELETE apache_2020-01-01.txt` |
-| `-i` | Ignore **case sensitivity** (uppercase/lowercase)  | `grep -i delete apache_2020-01-01.txt` |
-| `-B` | Show lines **before** the match                    | `grep -B 2 ERROR system.log`           |
-| `-A` | Show lines **after** the match                     | `grep -A 3 ERROR system.log`           |
-| `-C` | Show lines **before and after** the match          | `grep -C 1 ERROR system.log`           |
-| `-c` | Show only the **count** of matching lines          | `grep -c DELETE system.log`            |
-
-`-R` — Recursive Search:
-The `-R` flag tells grep to search through all files and subdirectories.
-```bash
-$ grep -R DELETE ~/logs/2020/1
-```
-`-n` — Show Line Numbers:
-The `-n` flag displays the line number where each match occurs.
-```bash
-$ grep -n DELETE apache_2020-01-01.txt
-```
-#### Example: Search for a String and Display Line Number
-You are in your home directory. Go to `~/logs/2020/1`.
-
-Find the line number that contains `"503 3312"` in the file `apache_2020-01-01.txt`.
-```bash
-$ grep -n "503 3312" apache_2020-01-01.txt
-```
-#### Output:
-```bash
-1583
-```
-✅ The string `"503 3312"` appears on line 1583.
-
-#### Viewing Context Around Matches with grep
-
-In some cases, it’s important to see not only the matching line but also the surrounding lines — for example, to understand what happened before an error in the logs.
-
-To show adjacent lines, use the flags `-B`, `-A`, and `-C`.
-
-| Flag | Meaning        | Description                                                      |
-| ---- | -------------- | ---------------------------------------------------------------- |
-| `-B` | before-context | Shows the number of lines **before** the matching line           |
-| `-A` | after-context  | Shows the number of lines **after** the matching line            |
-| `-C` | context        | Shows the number of lines **before and after** the matching line |
-
-Example: 
-```bash
-$ grep -C 1 DELETE ~/logs/2020/1/apache_2020-01-01.txt
-```
-This command shows the line containing `DELETE` plus one line above and below it.
-
-#### Counting Matches
-Use the `-c` flag to return only the number of lines that match your search term:
-Example:
-```bash
-$ grep -c DELETE ~/logs/2020/1/apache_2020-01-01.txt
-```
-#### Pattern Matching Symbols
-
-| Symbol | Description                         | Example                                                             |
-| ------ | ----------------------------------- | ------------------------------------------------------------------- |
-| `[]`   | Match **one of several characters** | `grep -i N[ua]m1 Log1.txt` → matches *Num1*, *Nam1*, *num1*, *nam1* |
-| `.`    | Matches **any single character**    | `grep "204 3.96" apache_2020-01-01.txt`                             |
-| `^`    | Matches **the beginning** of a line | `grep "^Start" text.txt` → shows lines starting with “Start”        |
-| `$`    | Matches **the end** of a line       | `grep "End$" text.txt` → shows lines ending with “End”              |
-| `^$`   | Matches **empty lines**             | `grep ^$ text.txt` → finds blank lines                              |
-
-#### Saving `grep` Output to a File
-```bash
-$ grep ERROR /test1/test2/test_Logs/Log1.txt > errors.txt
-```
-All lines containing the word “ERROR” are saved into errors.txt.
-
-⚠️ If the file already exists, it will be overwritten.
-
-#### Using Command Templates
-
-Sometimes the term `DELETE` appears with different cases or abbreviations like `DEL`. You can handle this with:
-
-- `-i` → ignores uppercase/lowercase
-
-- `*` (asterisk) → matches any number of characters
-
-Example:
-```bash
-$ grep -i DEL* ~/logs/2020/1/apache_2020-01-31.txt
-```
-#### Useful Command Line Tricks
-
-| 🔹 **Command / Shortcut**    | 🧩 **Description**                                        | 💻 **Example / Notes**                                                  |
-| ---------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
-| **↑ / ↓ (Arrow keys)**       | Browse through previous commands in your command history. | Press `↑` to recall the last command, `↑↑` twice for the one before it. |
-| **Ctrl + A**                 | Move cursor to the **beginning** of the command line.     | Great for quickly editing the start of a long command.                  |
-| **Ctrl + E**                 | Move cursor to the **end** of the command line.           | Jump to the end instantly.                                              |
-| **Ctrl + U**                 | **Clear** the entire command line.                        | Deletes everything currently typed.                                     |
-| **Ctrl + C**                 | **Interrupt** a running process.                          | Use when a command hangs or runs too long.                              |
-| **`mv *.txt ~/Desktop`**     | Move all `.txt` files to the Desktop using wildcards.     | Moves every text file from current directory.                           |
-| **`cp j*.txt ~`**            | Copy all files starting with “j” and ending in `.txt`.    | Copies `jodorowsky_film.txt`, `jodorowsky_comics.txt`, etc.             |
-| **`history`**                | Show your command history.                                | Lists all commands used in current session.                             |
-| **`history > commands.log`** | Save command history to a file.                           | Stores full history in `commands.log`.                                  |
-
-</details>
-
-<!-- End: Linux & Command Line Section -->
+💡 Use `--help` after any command (e.g. `ls --help`) to see available options.
 
 ---
 
-<!-- Start: QA Engineering: SQL as a Data Management Tool -->
+### Python Basics
 
-<details>
-  <summary><h2>QA Engineering: SQL as a Data Management Tool</h2></summary>
-
-SQL (Structured Query Language) is a programming language designed to manage and manipulate data in relational databases.
-
-### Key Concepts 
-
-| Term                                  | Definition                                                                                                     |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **Database**                          | A structured repository of information.                                                                        |
-| **Entity**                            | A group of objects that share common characteristics.                                                          |
-| **Relational Database**               | A type of database where entities are **tables** and objects are **rows**.                                     |
-| **DBMS (Database Management System)** | Software that allows you to create, manage, and edit databases and tables.                                     |
-| **Table**                             | A collection of rows and columns representing structured data.                                                 |
-| **Field**                             | A column in a table that defines a specific attribute and has a name and data type.                            |
-| **Record**                            | A row in a table containing data about one object.                                                             |
-| **Cell**                              | The intersection of a row and column.                                                                          |
-| **Primary Key**                       | A unique field (or group of fields) used to identify records. It must not contain duplicates or `NULL` values. |
-| **Query**                             | A structured SQL command that specifies **what data to retrieve** and **how to process it**.                   |
-
-### Comments in SQL
-```bash
--- Single-line comment
-
-/* Multi-line
-   comment */
+**Variables and Types**
+```python
+name = "Camilo"       # string
+age = 30              # integer
+height = 1.80         # float
+is_active = True      # boolean
 ```
 
-### Basic SELECT Queries
+**Functions**
+```python
+def greet(name):
+    return f"Hello, {name}!"
 
-Select specific columns:
-```bash
-SELECT column_name_1, column_name_2, column_name_3
-FROM table_name;
-```
-Select all columns:
-```bash
-SELECT *
-FROM table_name;
-```
-Select with condition:
-```bash
-SELECT column_name_1, column_name_2
-FROM table_name
-WHERE condition;
+print(greet("Camilo"))  # Hello, Camilo!
 ```
 
-### Filtering Data
+**Lists and Loops**
+```python
+tools = ["nmap", "wireshark", "burpsuite"]
 
-Select rows where a value is between two values:
-```bash
-SELECT *
-FROM table_name
-WHERE field_1 BETWEEN value_1 AND value_2;
-```
-Select rows where values are in a specific list:
-```bash
-SELECT *
-FROM table_name
-WHERE column_name IN ('value_1', 'value_2', 'value_3');
+for tool in tools:
+    print(tool)
 ```
 
-### Aggregate Functions
-```bash
-SELECT 
-COUNT(*) AS total_rows,
-COUNT(column) AS non_null_rows,
-COUNT(DISTINCT column) AS unique_values,
-SUM(column) AS total_sum,
-AVG(column) AS average_value,
-MIN(column) AS min_value,
-MAX(column) AS max_value
-FROM table_name;
+**Conditionals**
+```python
+port = 80
+
+if port == 80:
+    print("HTTP")
+elif port == 443:
+    print("HTTPS")
+else:
+    print("Unknown service")
 ```
-
-### Type Conversion
-```bash
-SELECT CAST(column_name AS data_type)
--- or
-SELECT column_name :: data_type
-```
-
-### Grouping and Sorting
-Group Data:
-```bash
-SELECT field_1, field_2, AGGREGATE_FUNCTION(field) AS result
-FROM table_name
-WHERE condition
-GROUP BY field_1, field_2;
-```
-Order results:
-```bash
-SELECT field_1, field_2, AGGREGATE_FUNCTION(field) AS result
-FROM table_name
-WHERE condition
-GROUP BY field_1, field_2
-ORDER BY field_1 DESC, field_2 ASC
-LIMIT n;
-```
-
-### Managing Data
-Insert data:
-```bash
-INSERT INTO table_name (column_1, column_2, column_3)
-VALUES (value_1, value_2, value_3);
-```
-Update data:
-``` bash
-UPDATE table_name
-SET column_name = new_value
-WHERE condition;
-```
-Delete data:
-```bash
-DELETE FROM table_name
-WHERE condition;
-```
-
-### Summary Table
-
-| Command                             | Description                                          |
-| ----------------------------------- | ---------------------------------------------------- |
-| `SELECT`                            | Retrieves data from a table.                         |
-| `WHERE`                             | Filters data based on a condition.                   |
-| `BETWEEN`                           | Selects data between two values.                     |
-| `IN`                                | Filters data within a specific list.                 |
-| `COUNT`, `SUM`, `AVG`, `MIN`, `MAX` | Aggregate functions to perform calculations.         |
-| `GROUP BY`                          | Groups data by one or more fields.                   |
-| `ORDER BY`                          | Sorts data ascending (`ASC`) or descending (`DESC`). |
-| `INSERT INTO`                       | Adds new data into a table.                          |
-| `UPDATE`                            | Modifies existing records.                           |
-| `DELETE`                            | Removes records from a table.                        |
-| `CAST`                              | Converts a value to a different data type.           |
-
-#### Quick Tip
-Use `LIMIT n` to restrict the number of rows returned, especially when testing queries on large datasets.
-
-### Types of Relationships Between Tables
-A foreign key (FK) is a column in one table that contains values from another table — it links the two.
-
-| Relationship Type      | Description                                                    | Example                                                                               |
-| ---------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| **One-to-One (1:1)**   | Each row in one table is linked to exactly one row in another. | `Employee → Payroll_Info` (each employee has one payroll record).                     |
-| **One-to-Many (1:N)**  | One row in a table corresponds to multiple rows in another.    | `Author → Books` (an author can write many books, but each book has one author).      |
-| **Many-to-Many (N:N)** | Multiple rows in one table relate to multiple rows in another. | Requires a **junction table** combining both primary keys (e.g., `students_courses`). |
-
-### ER Diagrams (Entity-Relationship)
-ER diagrams visually represent how tables and their relationships are structured in a database.
-
-Elements:
-
-* Tables: Shown as rectangles divided into two parts:
-  * Upper part: table name
-  * Lower part: list of fields with keys indicated (`PK` = Primary Key, `FK` = Foreign Key)
-* Relationships: Lines connecting tables, with symbols indicating cardinality (1:1, 1:N, N:N).
-
-### Searching for Empty Values
-Find records with missing or empty fields using `IS NULL` or `IS NOT NULL`.
-
-```bash
--- Rows with empty values
-SELECT *
-FROM table_name
-WHERE column_name IS NULL;
-
--- Rows with non-empty values
-SELECT *
-FROM table_name
-WHERE column_name IS NOT NULL;
-```
-
-### Searching Data in Tables
-#### Comparison Operators
-
-| Operator | Meaning                  |
-| -------- | ------------------------ |
-| `=`      | Equal to                 |
-| `!=`     | Not equal to             |
-| `>`      | Greater than             |
-| `<`      | Less than                |
-| `>=`     | Greater than or equal to |
-| `<=`     | Less than or equal to    |
-
-#### Logical Operators
-
-| Operator | Description                        |
-| -------- | ---------------------------------- |
-| `AND`    | Both conditions must be true       |
-| `OR`     | One or both conditions can be true |
-| `NOT`    | The condition must be false        |
-
-#### Special Operators
-
-| Operator  | Description                                        |
-| --------- | -------------------------------------------------- |
-| `BETWEEN` | Selects values within a specific range (inclusive) |
-| `IN`      | Filters rows that match any value from a list      |
-| `LIKE`    | Searches for a pattern using wildcards             |
-
-### `INNER JOIN`
-Returns only the rows that have matching values in both tables (intersection).
-```bash
-SELECT  
-    table1.field_1,
-    table1.field_2,
-    table2.field_n
-FROM table1
-INNER JOIN table2 ON table2.field_1 = table1.field_2;
-```
-Key Points:
-* Table order doesn’t affect the result.
-* Includes only rows that meet the join condition.
-* Be careful with duplicates in 1:N relationships.
-
-### `LEFT JOIN` (Outer Join)
-Selects all rows from the left table and the matching rows from the right table.
-
-Non-matching rows from the right table are filled with `NULL`.
-```bash
-SELECT  
-    table1.field_1,
-    table1.field_2,
-    table2.field_n
-FROM table1
-LEFT JOIN table2 ON table2.field_1 = table1.field_2;
-```
-Key Points:
-* Keeps all rows from the left table.
-* Missing matches from the right table show as NULL.
-* Useful for finding records that exist in one table but not another.
-
-### `RIGHT JOIN` (Outer Join)
-Selects all rows from the right table and the matching rows from the left table.
-
-Non-matching rows from the left table are filled with `NULL`.
-```bash
-SELECT  
-    table1.field_1,
-    table1.field_2,
-    table2.field_n
-FROM table1
-RIGHT JOIN table2 ON table1.field_1 = table2.field_2;
-```
-Key Points:
-* Keeps all rows from the right table.
-* Works similarly to `LEFT JOIN`, just mirrored.
-* Less common but useful in some scenarios.
-
-### Joining Multiple Tables
-You can join more than two tables by chaining multiple `JOIN` statements.
-```bash
-SELECT  
-    table1.field_1,
-    table2.field_2,
-    table3.field_3
-FROM table1
-INNER JOIN table2 ON table1.id = table2.table1_id
-INNER JOIN table3 ON table2.id = table3.table2_id;
-```
-#### Things to Remember:
-* Each new JOIN builds on the previous one.
-* You can mix different join types (INNER, LEFT, RIGHT).
-* The order of joins can affect results.
-* Always double-check each ON condition.
-
-Example:
-```bash
-SELECT  
-    customers.name,
-    orders.order_date,
-    products.product_name
-FROM customers
-INNER JOIN orders ON customers.id = orders.customer_id
-INNER JOIN order_items ON orders.id = order_items.order_id
-INNER JOIN products ON order_items.product_id = products.id;
-```
-
-#### Quick Summary
-
-| Concept                   | Description                             |
-| ------------------------- | --------------------------------------- |
-| **Foreign Key**           | A column linking two tables.            |
-| **ER Diagram**            | Visual map of tables and relationships. |
-| **IS NULL / IS NOT NULL** | Filters empty or non-empty data.        |
-| **Comparison Operators**  | `=`, `!=`, `>`, `<`, `>=`, `<=`         |
-| **Logical Operators**     | `AND`, `OR`, `NOT`                      |
-| **JOINs**                 | Combine data from related tables.       |
-| **LEFT JOIN**             | Keep all records from the left table.   |
-| **RIGHT JOIN**            | Keep all records from the right table.  |
-| **Multiple JOINs**        | Combine three or more tables.           |
-
-</details>
-
-
-<!-- End: QA Engineering: SQL as a Data Management Tool -->
 
 ---
 
-<!-- Start: Networking Section -->
+### Pytest — Automated Testing
 
-<details>
-  <summary><h2>QA Engineering: SSH And Networking</h2></summary>
-
-### What is SSH?
-SSH (Secure Shell) is a network protocol used to securely access another computer remotely.
-It encrypts all communication between client and server.
-
-### Main uses:
-
-Remote access to servers or devices.
-Executing commands securely.
-Transferring files (`scp`, `sftp`).
-Tunneling other network traffic.
-### Connect to a server:
-```bash
-ssh user@server_ip
-```
-### SSH Keys:
-* Private key stays on the client.
-* Public key goes on the server.
-
-They provide secure passwordless authentication.
-### Is SSH Always Secure?
-SSH is very secure when properly configured, but risks include:
-
-* Weak passwords → use SSH keys instead.
-* Outdated SSH versions → keep OpenSSH updated.
-* Not verifying host fingerprints → risk of MITM attacks.
-* Exposed port 22 → use a non-standard port or firewall.
-* Stolen private keys → protect with passphrases.
-  
-| Setup                      | Security Level |
-| -------------------------- | -------------- |
-| Password login             | Medium         |
-| Key-based authentication   | Strong         |
-| Outdated/misconfigured SSH | Weak           |
-
-
-### SSH Ports
-
-* Default SSH port: TCP 22
-
-#### Risks:
-* Brute-force attacks → disable password logins.
-* Port scanning → change default port or restrict via firewall.
-* Outdated versions → keep updated.
-
-#### Best practices:
-* Use key-based authentication.
-* Change default port.
-* Limit IP access.
-* Use tools like Fail2Ban or UFW.
-
-### Ports on the Client Side
-#### When connecting via SSH:
-* The client does not open permanent ports.
-* It uses a temporary ephemeral port for outbound connection (e.g., Client:54321 → Server:22).
-* The port closes automatically when the session ends.
-
-#### Exceptions:
-Ports open locally only when port forwarding is used.
-
-| Mode | Description        | Open Port                         |
-| ---- | ------------------ | --------------------------------- |
-| `-L` | Local forwarding   | Opens local port (localhost only) |
-| `-R` | Remote forwarding  | Opens port on remote server       |
-| `-D` | Dynamic forwarding | Opens local SOCKS proxy port      |
-
-### Disconnecting from SSH
-To disconnect cleanly:
-``` bash
-exit
-```
-If the session freezes:
-```bash
-~.
-```
-If the terminal is closed, the SSH session ends immediately.
-
-**Best practice**: always use `exit`.
-</details>
-
-<!-- End: Networking Section -->
----
-
-<!-- Start: Cybersecurity Section -->
-
-<details>
-  <summary><h2>Cybersecurity Basics</h2></summary>
-   
-### Overview
-Core cybersecurity principles learned through TryHackMe and self-study:
-
-* Understanding security principles, governance, and regulation.
-* The Cyber Kill Chain model for analyzing attack stages.
-* Fundamental defensive practices (updates, authentication, network segmentation).
-</details>
-
-<!-- End: Cybersecurity Section -->
-
----
-
-<!-- Start: Python Section -->
-
-<details>
-  <summary><h2>Python</h2></summary>
-
-## 🐍 Python for Test Automation — Introduction to Python
-
-This section covers the fundamentals of Python. 
-It provides a beginner-friendly overview to help build the foundation needed for future test automation.
-
-### What is Python?
-
-Python is a high-level, interpreted programming language that is easy to read and write.  
-It is widely used for automation, software testing, data analysis, web development, and more.
-
-#### Why Python is used in Test Automation:
-- Simple and readable syntax (easy for beginners)
-- Large ecosystem of libraries and frameworks for testing (e.g., `pytest`, `unittest`)
-- Cross-platform: works on Windows, macOS, Linux
-
-### Running Python Code
-
-You can run Python in different ways:
-
-| Method | Description |
-|--------|----------------|
-| Python Interpreter | Run Python directly in the terminal or command prompt |
-| Python Script File `.py` | Write code in a file and execute it |
-| IDE (e.g., PyCharm, VS Code) | Allows writing, running, and debugging Python projects |
-
-#### Example (run in terminal):
-```python
-python3 hello.py
-```
-## Python Syntax Basics
-### Indentation
-Indentation is mandatory in Python. It defines code blocks – not {} brackets like other languages.
-```python
-if 5 > 3:
-    print("Python uses indentation!")
-```
-### Case Sensitivity
-`Variable`, `variable`, and `VARIABLE` are all different.
-
-### Comments
-Used to explain code and make it easier to understand.
-```python
-# This is a single-line comment
-```
-#### Multi-line comment:
-```python
-"""
-This is a multi-line
-comment in Python
-"""
-```
-## Variables in Python
-A variable stores data that can change during program execution.
-You do not need to declare the type — Python detects it automatically.
-```python
-name = "Camilo"
-age = 25
-```
-Rules for variable names:
-* Must start with a letter or _
-* Cannot start with a number
-* Cannot contain spaces or symbols like @, $, %
-* Case-sensitive
-
-## Basic Data Types
-
-A **data type** defines the kind of value a variable holds.  
-Python automatically detects the type of data assigned to a variable — this is called **dynamic typing**.
-
-| Data Type         | Example         | Description           |
-| ----------------- | --------------- | --------------------- |
-| `int` (integer)   | `10`            | Whole numbers         |
-| `float` (decimal) | `10.5`          | Numbers with decimals |
-| `str` (string)    | `"Hello"`       | Text                  |
-| `bool` (boolean)  | `True`, `False` | Logical values        |
-
-### Example:
-```python
-age = 25          # int
-price = 9.99      # float
-name = "Camilo"   # string
-is_testing = True # bool
-```
-
-## Input & Output
-### Print Output
-```python
-print("Hello, Python!")
-```
-### User Input
-```python
-name = input("Enter your name: ")
-print("Hello, " + name)
-```
-Note: input() always returns a string.
-
-## Basic Operators
-
-| Operator | Example  | Description                     |
-| -------- | -------- | ------------------------------- |
-| `+`      | `2 + 3`  | Addition                        |
-| `-`      | `5 - 2`  | Subtraction                     |
-| `*`      | `4 * 3`  | Multiplication                  |
-| `/`      | `8 / 2`  | Division (always returns float) |
-| `//`     | `8 // 2` | Floor division (no decimals)    |
-| `%`      | `7 % 3`  | Modulo (remainder)              |
-| `**`     | `2 ** 3` | Exponent (power)                |
-
-## Numeric Data Types
-Python includes two common number types:
-
-| Type    | Description                 | Example                 |
-| ------- | --------------------------- | ----------------------- |
-| `int`   | Whole numbers (no decimals) | `10`, `-3`, `0`         |
-| `float` | Numbers with decimals       | `10.5`, `0.75`, `-3.14` |
-
-Operations apply differently:
-```python
-a = 5     # int
-b = 2.5   # float
-
-print(a + b)   # 7.5 (result is float)
-```
-
-## Strings (`str`)
-A string stores text. It must be wrapped in quotes.
-```python
-text1 = "Hello"
-text2 = 'Python'
-```
-Strings can be combined (concatenated):
-```python
-name = "Camilo"
-print("Hello, " + name)
-```
-
-You can also get the lenght of a string:
-```python
-len("Python")   # 6
-```
-
-## Indexing & Slicing (Indexation)
-
-Indexing and slicing let you access elements or sub-parts of sequences: lists, tuples, strings.
-
-### Indexing
-* Python uses zero-based indexing: the first element is at index 0.
-* Negative indices start from the end: -1 is the last element.
-
-#### Examples
-```python
-fruits = ["apple", "banana", "orange"]
-print(fruits[0])   # apple
-print(fruits[-1])  # orange
-```
-Strings use the same indexing rules:
-```python
-text = "Python"
-print(text[0])     # 'P'
-print(text[-2])    # 'o'
-```
-
-### Slicing
-* Syntax: sequence[start:stop:step]
-* start is inclusive, stop is exclusive.
-* step is optional (default 1).
-* Omit start to begin at 0, omit stop to go to the end.
-
-#### Examples
-```python
-numbers = [0,1,2,3,4,5]
-print(numbers[1:4])   # [1, 2, 3]    (elements 1,2,3)
-print(numbers[:3])    # [0, 1, 2]    (start to index 2)
-print(numbers[3:])    # [3, 4, 5]    (index 3 to end)
-print(numbers[::2])   # [0, 2, 4]    (every 2nd element)
-```
-### Common patterns
-* Get last N elements: seq[-N:]
-* Reverse a sequence: seq[::-1]
-
-#### Examples
-```python
-print(numbers[-3:])   # last 3 elements -> [3,4,5]
-print(text[::-1])     # reverse string -> "nohtyP"
-```
-
-## Boolean (`bool`)
-Represents **True** or **False** values.
-Used a lot in automation for conditions and test validations.
-```python
-is_valid = True
-print(is_valid)      # True
-```
-Booleans often come from comparisons:
-```python
-print(4 > 2)   # True
-print(3 == 5)  # False
-```
-
-## Lists
-A list stores multiple values in one variable.
-Lists are ordered, changeable, and can contain different data types.
-```python
-fruits = ["apple", "banana", "orange"]
-print(fruits[1])   # banana
-```
-You can modify a list:
-```python
-fruits.append("kiwi")
-```
-  
-## Tuples
-A tuple is similar to a list but cannot be changed (immutable).
-```python
-colors = ("red", "green", "blue")
-```
-Use tuples when you want to store constant values.
-
-## Dictionaries
-A dictionary stores data as key–value pairs, like a real dictionary.
-```python
-person = {
-    "name": "Camilo",
-    "age": 25,
-    "country": "Australia"
-}
-```
-Access values by key:
-```python
-print(person["name"])    # Camilo
-```
-
-## Loops
-Loops let you repeat a block of code multiple times. Python has two main loop types: `for` and `while`.
-
-### `for` loop
-- Iterates over items of a sequence (list, tuple, string) or over a range of numbers.
-- Common when you know the number of iterations or when you want to process every item in a collection.
-
-#### Examples
-```python
-# Iterate directly over a list
-fruits = ["apple", "banana", "orange"]
-for fruit in fruits:
-    print(fruit)
-
-# Iterate using range() — numbers from 0 to 2
-for i in range(3):
-    print(i)   # 0, 1, 2
-
-# Iterate with indices
-for i in range(len(fruits)):
-    print(i, fruits[i])
-```
-
-### `while` loop
-* Repeats as long as a condition is True.
-* Useful when the number of iterations depends on runtime conditions.
-
-#### Example
-```python
-count = 0
-while count < 3:
-    print("count =", count)
-    count += 1
-```
-
-### Controling loops
-
-* `break` — immediately exit the loop.
-* `continue` — skip the rest of the current iteration and continue with the next one.
-* You can combine conditions to control behavior inside loops.
-
-#### Example
-```python
-for i in range(5):
-    if i == 2:
-        continue    # skip printing 2
-    if i == 4:
-        break       # stop loop when i == 4
-    print(i)        # prints 0, 1, 3
-```
-
-## Type Conversion (Casting)
-You can convert a value from one type to another:
-```python
-age = "25"
-age = int(age)      # convert string to int
-print(type(age))    # <class 'int'>
-```
-Common conversions:
-* `int()`
-* `float()`
-* `str()`
-* `bool()`
-
-## Functions
-
-Functions are reusable blocks of code that help you avoid repetition and make your programs easier to read, organize, and maintain. This section covers how to define functions, pass arguments, return values, and test functions using `assert`.
-
-### 1. What Is a Function?
-
-A **function** is a named block of code that performs a specific task.  
-Python has many built-in functions (e.g., `print()`), but you can also create your own.
-
-#### Benefits of functions:
-- Avoid repeating the same code  
-- Organize logic into reusable components  
-- Make your code easier to test  
-
-### 2. Defining a Function
-
-To create a function, use the keyword `def` followed by the function name and parentheses.
-
-Example:
+Pytest is a testing framework for Python. A test is any function whose name starts with `test_`.
 
 ```python
-def hello():
-    print("Hello!")
-```
+def test_sum():
+    assert 2 + 3 == 5
 
-#### Naming conventions:
-- Use lowercase letters
-- Use underscores to separate words
-- Example: say_hello, calculate_total
-The function body is indented with 4 spaces:
-
-```python
-def hello():
-    print("Hello!")   # function body
-```
-To run a function, call it by writing its name followed by parentheses:
-
-```python
-hello()
-```
-
-### 3. Parameters and Arguments
-
-A function can accept parameters — placeholders for data the function needs.
-
-Example:
-```python
-def hello(name):
-    print(name + ", hello!")
-```
-
-When calling the function, pass the **argument**:
-```python
-hello("Andrea")
-# Output: Andrea, hello!
-```
-
-#### Multiple Parameters
-```python
-def greet(name, task):
-    print(name + ", hello! It's time to " + task)
-
-greet("Daniel", "fix bugs")
-greet("Jennifer", "write test cases")
-greet("Gabriel", "lift team morale")
-```
-Order matters:
-- First argument → first parameter
-- Second argument → second parameter
-
-### 4. Functions With Return Values
-
-Functions can return values to be used later in the code.
-Use the keyword `return`.
-
-Example:
-``` python
-def add(a, b):
-    return a + b
-
-result = add(3, 5)
-print(result)   # 8
-```
-#### Example: Calorie Calculator
-``` python
-calories = {
-    "Hamburger": 600,
-    "Cheeseburger": 750,
-    "Veggie Burger": 400,
-    "Vegan Burger": 350,
-    "Fries": 230,
-    "Salad": 15,
-    "Iced Tea": 70,
-    "Lemonade": 90
-}
-
-def calories_counter(item_a, item_b, item_c):
-    return calories[item_a] + calories[item_b] + calories[item_c]
-
-print(calories_counter("Hamburger", "Cheeseburger", "Iced Tea"))
-# Output: 1240
-```
-Explanation:
-- The function receives three dishes as parameters
-- Uses return to add their calorie values
-- The final number is printed when the function is called
-
-### 5. Testing Functions With `assert`
-
-`assert` is used to verify that a condition is True.
-If it's not True, Python raises an AssertionError and stops the program.
-
-Example:
-```python
-assert 5 + 6 == 11  # Test passes
-```
-
-If a test fails:
-``` python
-assert 5 == 4
-```
-
-Python shows:
-``` python
-AssertionError
-+5
--4
-```
-
-#### Why use assert?
-- Helps automate tests
-- Immediately shows mismatched results
-- Prevents the program from continuing with incorrect logic
-
-#### Example: Checking if balance is greater than zero
-``` python
-def test_deposit_more_than_zero():
+def test_deposit_positive():
     deposit = get_user_deposit()
     assert deposit > 0
 ```
 
-Other valid comparison operators with assert:
-- `==` (equal)
-- `!=` (not equal)
-- `>` (greater than)
-- `<` (less than)
-- `>=`, `<=`
+**Running tests:**
+```bash
+pytest                   # run all tests in project
+pytest calc_test.py      # run tests in a specific file
+```
 
-## Pytest Basics
+**Three rules for clean tests:**
+- ✅ One test → one assertion
+- ✅ Tests use independent data — no shared state
+- ✅ Each test can run alone, in any order
 
-Pytest is a testing framework for Python that makes it easy to write, run, and manage automated tests.  
-This section covers how Pytest works, how to install it, how to run tests, and how it is used together with the `requests` library for API testing.
+---
 
-### 1. What Is Pytest?
+### API Testing with Requests + Pytest
 
-In Pytest, a **test** is a function whose name starts with the prefix `test_`.
-
-Important rules:
-- Test function names **must start with `test`**
-- Pytest is **case-sensitive**
-  - ✅ `test_login`
-  - ❌ `Test_login`
-
-Example:
 ```python
-def test_sum():
-    assert 2 + 3 == 5
-```
-
-### 2. Installing Pytest
-There are two ways to install Pytest.
-
-#### Option 1: Using pip (Terminal)
-```bash
-pip install pytest
-```
-
-If `pip` does not work, try:
-```bash
-pip3 install pytest
-```
-`pip` is Python's built-on package manager used to install libraries.
-
-#### Option 2: Using PyCharm (GUI)
-* Open your project in PyCharm
-* Open the Python Packages tab (bottom panel)
-* Search for pytest
-* Click Install
-
-### 3. Running Tests with Pytest
-
-#### Running tests from the terminal
-Run all tests in the project:
-```bash
-pytest
-```
-Run tests from a specific file:
-```bash
-pytest calc_test.py
-```
-
-#### Running tests from PyCharm interface
-**Run all tests:**
-1. Go to Run → Edit Configurations
-2. Click + Add New Configuration
-3. Select Python tests → pytest
-4. Choose Custom as the target
-5. Click Apply → OK
-6. Click the green ▶️ button to run tests
-   
-**Run tests from a specific file:**
-1. Go to Run → Edit Configurations
-2. Add Python tests → pytest
-3. Leave Script path selected
-4. Choose the test file
-5. Click Apply → OK
-6. Run using the green ▶️ button
-
-**Running a single test from the editor**
-* After installing Pytest, a green arrow appears next to test functions.
-* Click it to run that test only.
-
-### 4. Using the Requests Library (API Testing)
-The requests library is used to send HTTP requests (GET, POST, etc.).
-
-**Installation**
-Install requests using:
-```bash
-pip install requests
-```
-Or via **Python PAckages** in PyCharm.
-
-### 5. Sending a GET Request
-
-**Step 1: Create configuration.py**
-Store base URLs and paths:
-```python
-URL_SERVICE = "https://example.com"
-DOC_PATH = "/docs/"
-```
-**Step 2: Create sender_stand_request.py**
-```python
-import configuration
 import requests
+import configuration
 
 def get_docs():
     return requests.get(configuration.URL_SERVICE + configuration.DOC_PATH)
 
 response = get_docs()
-print(response.status_code)
+print(response.status_code)  # 200 = OK
 ```
 
-#### Common Response Attributes
+**Common response attributes:**
 
-| Attribute     | Purpose                              |
-| ------------- | ------------------------------------ |
-| `status_code` | HTTP response code                   |
-| `headers`     | Response headers                     |
-| `ok`          | `True` if status code is 2xx or 3xx  |
-| `url`         | Request URL                          |
-| `request`     | Request method                       |
-| `text`        | Response body as text                |
-| `json()`      | Converts response body to dictionary |
+| Attribute | Purpose |
+|---|---|
+| `status_code` | HTTP response code (200, 404, 500...) |
+| `text` | Response body as a string |
+| `json()` | Response body parsed as a dictionary |
+| `headers` | Response headers |
+| `ok` | `True` if status code is 2xx |
 
-### 6. Sending a POST Request
-**Step 1: Add path to configuration.py**
-```python
-CREATE_USER_PATH = "/api/v1/users/"
-```
-**Step 2: Create data.py**
-```python
-headers = {
-    "Content-Type": "application/json"
-}
-
-user_body = {
-    "firstName": "Andrea",
-    "phone": "+11234567890",
-    "address": "123 Elm Street, Hilltop"
-}
-```
-
-**Step 3: Send POST request**
-```python
-import configuration
-import requests
-import data
-
-def post_new_user(body):
-    return requests.post(
-        configuration.URL_SERVICE + configuration.CREATE_USER_PATH,
-        json=body,
-        headers=data.headers
-    )
-
-response = post_new_user(data.user_body)
-print(response.status_code)
-```
-
-### 7. Basic Rules for Writing Automated Tests
-
-To write clean and reliable tests, follow these three rules:
-
-✅ One test → one assertion
-* Each test should verify one condition only.
-
-✅ Independent test data
-* Tests should not depend on shared or modified data.
-
-✅ Independent tests
-* Each test must be able to run alone, in any order.
-
-
-
-## 🐍 Python Cheat Sheet (Courtesy of Jack Rhysider)
-
-This Python cheat sheet was created by **Jack Rhysider**, the host of [**Darknet Diaries**](https://darknetdiaries.com/), and is shared here for **educational and personal learning purposes**.
-
-> 📝 **Credit:** Original creator — [Jack Rhysider](https://darknetdiaries.com/)  
-> 📄 **Source:** *Python Cheat Sheet (Darknet Diaries)*  
-> ⚖️ **Note:** All rights belong to the original author. This resource is included here solely for study and reference.
-
-[📘 View the Python Cheat Sheet (by Jack Rhysider)](./assets/Python-CheatSheet.pdf)
-
-</details>
-
-<!-- End: Python Section -->
 ---
 
-<!-- Start: Future Sections -->
+### Python Cheat Sheet
 
-<details>
-  <summary><h2>Future Sections</h2></summary>
-   
-These placeholders will be filled as I continue learning:
+A Python reference by Jack Rhysider (host of [Darknet Diaries](https://darknetdiaries.com/)) is included in this repo for study and reference.
 
-* Git & GitHub Workflow
+> 📄 **Credit:** Original creator — [Jack Rhysider](https://darknetdiaries.com/) · All rights belong to the original author.
 
-* Networking Deep Dive
+[📘 View the Python Cheat Sheet](./assets/Python-CheatSheet.pdf)
 
-* Kali Linux Tools
-
-* Advanced QA Techniques
-
-* Cloud & Virtualization Basics
 </details>
 
+---
 
+<!-- ============================================================ -->
+<!-- COMING SOON -->
+<!-- ============================================================ -->
 
+<details>
+  <summary><h2>🚧 Coming Soon</h2></summary>
+
+Areas actively in progress — notes will be added as completed:
+
+- **Home Lab Setup** — Kali Linux VM, VPN server (PiVPN + WireGuard), Pi-hole, network segmentation
+- **KC7 Investigations** — ongoing SOC simulation writeups
+- **picoCTF / CyLab** — Section 4 (Python) and beyond
+- **PowerShell for Security** — scripting and automation
+- **Networking Deep Dive** — TCP/IP, DNS, HTTP in depth
+- **Web Application Security** — OWASP Top 10, Burp Suite
+
+</details>
+
+---
+
+<div align="center">
+
+*Built while studying for a Master of Cyber Security at Edith Cowan University (ECU), Perth — starting 2026.*
+
+</div>
