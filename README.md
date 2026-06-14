@@ -35,7 +35,7 @@ Continuously updated as I progress.
 | [🌐 Network Services](#-network-services--tryhackme) | SMB, Telnet — theory, enumeration, exploitation | TryHackMe |
 | [🗺️ Nmap — Network Scanning](#️-nmap--network-scanning) | Scan types, flags, NSE scripts, recipes | TryHackMe + NetworkChuck |
 | [🧪 CTF Labs — CyLab / picoCTF](#-ctf-labs--cylab--picoctf) | Flags, CyberChef, Linux tools, Python | CyLab Security Academy |
-| [🔍 KC7 — Threat Hunting with KQL](#-kc7--threat-hunting-with-kql) | KQL queries, SOC investigations — *A Rap Beef: An Intro to Security Investigations* | KC7 / CyLab |
+| [🔍 KC7 — Threat Hunting with KQL ](#-kc7--threat-hunting-with-kql) | KQL queries, SOC investigations — *A Rap Beef: An Intro to Security Investigations* | KC7 / CyLab |
 | [🛠️ QA Engineering Reference](#️-qa-engineering-reference) | Linux CLI, Python, Pytest, API testing | TripleTen Bootcamp |
 
 ---
@@ -487,7 +487,7 @@ ssh user@host -p <port>
 <!-- ============================================================ -->
 
 <details>
-  <summary><h2>🔍 KC7 — Threat Hunting with KQL | 🎤 A Rap Beef: An Intro to Security Investigations</h2></summary>
+  <summary><h2>🔍 KC7 — Threat Hunting with KQL</h2></summary>
 
 **Platform:** KC7 — CyLab Security Academy  
 **URL:** https://kc7cyber.com  
