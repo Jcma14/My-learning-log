@@ -752,36 +752,135 @@ When you see `chr(0x__)` in Python source code, the script is building a string 
 ---
 
 ### PW Crack 3 ✅
-**Flag:** `picoCTF{m45h_fl1ng1ng_cd6ed2eb}`
+**Flag:** `picoCTF{m45h_fl1ng1ng_cd6ed2eb}`  
+**Skills demonstrated:** MD5 hash comparison, dictionary attack, Python scripting, binary file inspection, reading source code
 
-This time the password was stored as an **MD5 hash** in a binary file (`level3.hash.bin`). Because MD5 is a one-way function, it can't be reversed — but it can be replicated. The solution was a **dictionary attack**: hash each candidate from the provided list and compare to the stored hash.
+#### Overview
+
+In this challenge, the password was no longer stored as plain text or a simple encoding — it was stored as an **MD5 hash** in a binary file (`level3.hash.bin`). Because MD5 is a one-way function, it can't be reversed to recover the original password. The solution was a **dictionary attack**: hash each candidate password from the provided list using the same MD5 function, and compare the result to the stored hash. When they match, the original password is found.
+
+This mirrors a core real-world technique used by both attackers (cracking leaked password databases) and defenders (understanding why MD5 is no longer safe for password storage).
+
+---
+
+#### Understanding MD5 Hashing
+
+A **hash** is a one-way transformation of data. You put a password in, you get a fixed-length string of bytes out. Three key properties:
+
+- **One-way:** You cannot reverse a hash to recover the original input
+- **Deterministic:** The same input always produces the exact same output
+- **Fixed length:** MD5 always produces a 16-byte (128-bit) result, regardless of input size
+
+```
+Password → MD5 hash function → Hash output
+"87ab"   → MD5             → E1 6D 55 A5 5D 80 DD DD 52 A8 3E AB EA 57 2B 7B
+```
+
+> 💡 **Why `bvi`?** The hash is stored in binary format (`.bin`), not plain text. Opening it with `cat` produces garbled output. `bvi` is a binary file viewer that shows the raw hex bytes — which is exactly what you see when you inspect `level3.hash.bin`: `E1 6D 55 A5 5D 80 DD DD 52 A8 3E AB EA 57 2B 7B`. That's the MD5 hash of the correct password stored on disk.
+
+---
+
+#### Reading the Script
+
+The relevant parts of `level3.py` provided by the challenge:
 
 ```python
-# Add this loop to level3.py and run it
+import hashlib
+
+flag_enc = open('level3.flag.txt.enc', 'rb').read()
+correct_pw_hash = open('level3.hash.bin', 'rb').read()   # the stored hash
+
+def hash_pw(pw_str):
+    pw_bytes = bytearray()
+    pw_bytes.extend(pw_str.encode())
+    m = hashlib.md5()
+    m.update(pw_bytes)
+    return m.digest()   # returns the MD5 hash as raw bytes
+
+# 7 possible passwords — only 1 is correct
+pos_pw_list = ["f09e", "4dcf", "87ab", "dba8", "752e", "3961", "f159"]
+```
+
+The script already has everything needed:
+- `hash_pw()` — hashes any password string using MD5
+- `correct_pw_hash` — the stored hash to match against
+- `pos_pw_list` — the 7 candidates to test
+
+---
+
+#### Step by Step
+
+**1. Inspect the hash file (optional — useful to understand what you're working with):**
+```bash
+bvi level3.hash.bin
+# Shows raw bytes: E1 6D 55 A5 5D 80 DD DD 52 A8 3E AB EA 57 2B 7B
+# :q to exit
+```
+
+**2. Run a dictionary attack — open the Python3 shell and paste the full script plus this loop:**
+
+```python
+import hashlib
+
+flag_enc = open('level3.flag.txt.enc', 'rb').read()
+correct_pw_hash = open('level3.hash.bin', 'rb').read()
+
+def hash_pw(pw_str):
+    pw_bytes = bytearray()
+    pw_bytes.extend(pw_str.encode())
+    m = hashlib.md5()
+    m.update(pw_bytes)
+    return m.digest()
+
+pos_pw_list = ["f09e", "4dcf", "87ab", "dba8", "752e", "3961", "f159"]
+
 for pw in pos_pw_list:
     if hash_pw(pw) == correct_pw_hash:
         print("Found it:", pw)
-# Output: Found it: 87ab
 ```
 
+Output: `Found it: 87ab`
+
+**3. Run the challenge script and enter the cracked password:**
 ```bash
 python3 level3.py -d level3.flag.txt.enc
-# enter: 87ab
+# Please enter correct password for flag: 87ab
+# Welcome back... your flag, user:
+# picoCTF{m45h_fl1ng1ng_cd6ed2eb}
 ```
+
+---
+
+#### What's Happening Under the Hood
+
+| Step | What the code does |
+|---|---|
+| `hash_pw(pw)` | Takes the candidate password, converts it to bytes, runs MD5, returns the hash |
+| `hash_pw(pw) == correct_pw_hash` | Compares the freshly computed hash to the one stored in `.hash.bin` |
+| Match found | The loop prints the password — you now know which one to enter |
+| `str_xor()` | The challenge script uses the password to XOR-decrypt the flag from the `.enc` file |
+
+---
+
+#### Key Concepts Reference
 
 | Concept | What it means |
 |---|---|
-| MD5 | One-way hash function — same input always gives same output, but can't be reversed |
-| Dictionary attack | Hash every candidate password and compare — when hashes match, password is found |
-| Rainbow tables | Pre-computed hash lookup tables — why plain MD5 password storage is insecure |
-| `bvi` | Binary file viewer — needed to inspect `.hash.bin` since `cat` produces garbled output |
+| MD5 | One-way hash function — same input always gives same output, cannot be reversed |
+| Dictionary attack | Hash every candidate and compare — when hashes match, password is found |
+| Rainbow tables | Pre-computed hash lookup tables — why storing passwords as plain MD5 is insecure |
+| `bvi` | Binary file viewer — needed since `cat` on a `.bin` file produces garbled output |
+| `m.digest()` | Returns the MD5 result as raw bytes — must match the binary stored in `.hash.bin` |
+
+---
 
 #### Takeaways
 
-- Reading source code is the most important skill in this section — the script always tells you what hash function is used, where the stored value lives, and what the candidates are.
-- Each PW Crack challenge adds one layer: plain text → hex encoding → MD5 hashing. Real password storage has evolved the same way — and further (bcrypt, Argon2).
+- MD5 is a one-way function — you can't reverse it, but you can replicate it. If you can hash all the candidates and compare, you don't need to reverse anything.
+- Dictionary attacks are the standard approach to cracking hashed passwords when a candidate list exists. In the real world, attackers use wordlists with millions of entries (like `rockyou.txt`) and tools like `hashcat` to crack MD5 hashes from breached databases almost instantly.
+- Storing passwords as plain MD5 hashes is considered insecure precisely because of dictionary and rainbow table attacks. Modern systems use slow hashing algorithms like **bcrypt** or **Argon2** with salting to make this computationally infeasible.
+- Reading source code is always the first step — the script told us exactly which hash function was used (`hashlib.md5`), where the stored hash lived (`level3.hash.bin`), and what the candidate passwords were (`pos_pw_list`).
 - Python is case-sensitive: `correct_pw_hash` ≠ `Correct_pw_hash`. A `NameError` almost always means a capitalisation mistake.
-- In real SOC/pen test work, dictionary attacks against MD5 hashes are trivial with tools like `hashcat` and wordlists like `rockyou.txt`.
 
 ---
 
