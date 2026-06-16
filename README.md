@@ -454,6 +454,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | CyberChef | Browser-based encoder/decoder | ROT13, Base64, hex, and more |
 | `unzip` | Extract zip archives | Compressed file challenges |
 | `bvi` | Binary file viewer | Inspect `.bin` or binary files in hex |
+| `wget` | Download files from a URL | Getting challenge files |
 
 ---
 
@@ -479,79 +480,314 @@ nc <host> <port>
 ssh user@host -p <port>
 ```
 
-</details>
-
 ---
 
-### picoCTF — PW Crack 3: MD5 Hashing and Dictionary Attacks
+## CTF Onboarding
 
 **Platform:** CyLab Security Academy / picoCTF  
-**Module:** Beginner's Guide to the Challenge Library — Section 4 (Python)  
+**Module:** Beginner's Guide to the Challenge Library — CTF Onboarding  
 **Date:** June 2026  
-**Skills demonstrated:** MD5 hash comparison, dictionary attack, Python scripting, binary file inspection, reading source code
-
----
+**Skills demonstrated:** Platform orientation, understanding flags, using the webshell
 
 #### Overview
 
-In this challenge, a password was stored not as plain text or a simple encoding, but as an **MD5 hash** — a one-way cryptographic fingerprint of the original value. Because hashes can't be reversed, the solution required performing a **dictionary attack**: hashing each candidate password from a provided list and comparing the result to the stored hash until a match was found.
-
-This mirrors a core real-world technique used by both attackers (cracking leaked password databases) and defenders (understanding why MD5 is no longer safe for password storage).
-
----
+The onboarding section introduces what a CTF is, what a flag looks like, and how to submit one. No technical skills are tested yet — the goal is to get comfortable with the platform and environment before the real challenges begin.
 
 #### Key Concepts
 
-**MD5 hashing** is a one-way function with three important properties:
-- *One-way:* You cannot reverse a hash to recover the original input
-- *Deterministic:* The same input always produces the same hash output
-- *Fixed length:* MD5 always produces a 16-byte (128-bit) result
+- A **flag** is always formatted as `picoCTF{some_text_here}` — copy it exactly and paste it into the answer box. Flags are case-sensitive.
+- The **Challenge Library** (picoGym) is a permanent practice arena — challenges are always available, at your own pace, with hints allowed.
+- The **Webshell** is a browser-based Linux terminal provided by picoCTF. It's a real Ubuntu environment, useful if you don't have your own Linux setup.
+- Every challenge shows its **category** (General Skills, Cryptography, Web, Forensics, etc.) — use this to know which tools to reach for.
 
-These properties make hashes useful for verifying passwords without storing them in plain text — but MD5 is now considered weak because pre-computed lookup tables (called **rainbow tables**) can crack common MD5 hashes almost instantly.
+#### Takeaways
 
-**Dictionary attack** — rather than trying to reverse a hash, you hash every word in a known list and compare each result to the target hash. When they match, you've found the original password. In real-world attacks, wordlists like `rockyou.txt` contain millions of entries.
-
-| Python concept | What it does |
-|---|---|
-| `hashlib.md5()` | Initialises the MD5 hashing engine |
-| `m.update(pw_bytes)` | Feeds the password bytes into the hasher |
-| `m.digest()` | Returns the hash as raw bytes for comparison |
-| `hash_pw(pw) == correct_pw_hash` | Compares two hashes — if equal, password is found |
+- Points don't matter for learning — understanding the *why* behind each solution does.
+- The category label is your first clue about which tools and techniques apply.
+- Having your own Kali Linux VM is better than the webshell — full tool access, no browser dependency.
 
 ---
 
-#### Practical Application
+## Section 1 — Sanity Checks
 
-The challenge provided three files: `level3.py` (the password checker), `level3.flag.txt.enc` (the encrypted flag), and `level3.hash.bin` (the stored MD5 hash). Inspecting the binary hash file with `bvi` revealed the raw bytes: `E1 6D 55 A5 5D 80 DD DD 52 A8 3E AB EA 57 2B 7B`.
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 1  
+**Date:** June 2026  
+**Skills demonstrated:** Reading files with `cat`, SSH remote login, netcat connections
 
-Reading the script revealed the `hash_pw()` function and a list of 7 possible passwords. The solution was to extend the script with a loop:
+#### Overview
+
+Three challenges that introduce the most fundamental Linux commands and networking tools: reading files, connecting via SSH, and using netcat. These three tools alone solve a large portion of beginner CTF challenges and are used constantly in real security work.
+
+#### Key Concepts
+
+**Challenge 1 — Obedient Cat:** The flag was hidden in a plain text file. Reading it required one command:
+
+```bash
+cat flag
+```
+
+**Challenge 2 — Super SSH:** Logging into a remote machine using SSH with credentials provided by the challenge.
+
+```bash
+ssh ctf-player@titan.picoctf.net -p 65341
+# Accept the fingerprint prompt → type: yes
+# Enter the password when asked
+```
+
+| Part | Meaning |
+|---|---|
+| `ctf-player` | Username to log in as |
+| `@titan.picoctf.net` | The remote machine's address |
+| `-p 65341` | Custom port (default SSH is 22) |
+
+**Challenge 3 — What's a Netcat?:** Connecting to a raw TCP service with no credentials — the server sent the flag immediately on connection.
+
+```bash
+nc jupiter.challenges.picoctf.org 64287
+```
+
+| Tool | Use when... |
+|---|---|
+| `ssh` | Challenge gives a **username + password** |
+| `nc` | Challenge gives just a **host + port** |
+
+#### Takeaways
+
+- `cat`, `ssh`, and `nc` are three of the most-used tools in CTFs and real security work — get comfortable with all three.
+- The SSH fingerprint warning is normal in CTFs; in real environments always verify it before accepting.
+- Netcat is called the "Swiss Army knife of networking" — it's also used for reverse shells, file transfers, and port listeners in real engagements.
+
+---
+
+## Section 2 — CyberChef
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 2  
+**Date:** June 2026  
+**Skills demonstrated:** ROT13, hex/decimal/binary conversion, Base64 decoding, CyberChef
+
+#### Overview
+
+This section introduces encoding and number systems — the foundation of almost all cryptography challenges. CyberChef is the primary tool: a free browser-based encoder/decoder built by GCHQ. Drag an operation into the Recipe, paste your input, and it transforms it instantly.
+
+**CyberChef:** https://gchq.github.io/CyberChef/
+
+#### Key Concepts
+
+**Challenge 1 — Mod 26 (ROT13):** ROT13 replaces every letter with the one 13 positions away in the alphabet. Applying it twice returns the original — it's its own reverse. Not real encryption, just obfuscation.
+
+```bash
+# Terminal method
+echo "cvpbPGS{...}" | tr A-Za-z N-ZA-Mn-za-m
+```
+
+**Challenge 2 — Warmed Up (Hex → Decimal):** The prefix `0x` signals a hexadecimal number. Converting to decimal:
+
+```
+0x3D = (3 × 16) + 13 = 61
+```
+```bash
+echo $((0x3D))    # → 61
+```
+
+**Challenge 3 — 2Warm (Decimal → Binary):** Divide by 2 repeatedly, read remainders bottom-up.
+
+```
+42 → 101010 (binary)
+```
+```bash
+echo "obase=2; 42" | bc    # → 101010
+```
+
+**Challenge 4 — Bases (Base64):** Base64 encodes binary data as readable text. It's used in JWTs, email attachments, and data URLs. It's not encryption — anyone can decode it instantly. Recognise it by the trailing `=` or `==` padding.
+
+```bash
+echo "bDNhcm5fdGgzX3IwcDM1" | base64 -d
+```
+
+| Base | Name | Prefix | Example |
+|---|---|---|---|
+| 2 | Binary | none / `0b` | `101010` = 42 |
+| 10 | Decimal | none | `42` |
+| 16 | Hexadecimal | `0x` | `0x2A` = 42 |
+
+| Encoding | Recognise it by | Decode with |
+|---|---|---|
+| ROT13 | Scrambled letters | CyberChef ROT13 or `tr` |
+| Base64 | Alphanumeric + `+/=`, no spaces | CyberChef or `base64 -d` |
+| Hex | `0x` prefix or pairs like `48 65 6c` | CyberChef "From Hex" |
+
+#### Takeaways
+
+- Number system conversions (hex, binary, decimal) appear constantly in CTFs and real security work — memory addresses, file signatures, and colour codes all use hex.
+- Base64 is not encryption. Seeing it in a web token or URL parameter is worth investigating.
+- CyberChef's "Magic" operation can auto-detect the encoding — useful when you're not sure what you're looking at.
+
+---
+
+## Section 3 — General Skills
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 3  
+**Date:** June 2026  
+**Skills demonstrated:** `strings`, `grep`, `unzip`, tab completion, web source inspection, robots.txt
+
+#### Overview
+
+The core toolkit for CTF survival: extracting text from binary files, filtering large outputs, tab completion for deep directory trees, inspecting web page source code, and exploiting `robots.txt`. These techniques appear in almost every CTF category.
+
+#### Key Concepts
+
+**Challenge 1 — Wave a Flag / Challenge 4 — Strings It:** Extract readable text from a binary file and filter for the flag.
+
+```bash
+strings <file> | grep -i pico
+```
+
+This pattern is so common it should be automatic — run it on any unknown file before anything else.
+
+**Challenge 2 — Tab, Tab, Attack:** Navigate a deeply nested directory tree using tab completion. Instead of typing full folder names, type the first few letters and press **Tab** — the terminal fills in the rest.
+
+```bash
+unzip Addadshashanammu.zip
+strings Add<TAB>/Alm<TAB>/Ash<TAB>/...  # tab-complete each folder
+```
+
+**Challenge 3 — Insp3ct0r:** The flag was split across three files of a web page — the HTML, CSS, and JS — hidden in comments.
+
+- HTML comment: `<!-- hidden here -->`
+- CSS/JS comment: `/* hidden here */`
+- Steps: View Page Source → find part 1 → open linked `.css` and `.js` files → find parts 2 and 3
+
+**Challenge 5 — First Grep:** Search a large plain text file for the flag without reading every line.
+
+```bash
+grep -i pico <file>
+```
+
+**Challenge 6 — Where are the Robots?:** `robots.txt` tells search engine crawlers which pages not to index — but those "hidden" URLs are visible to anyone. Always check it on web challenges.
+
+```
+https://challenge-url/robots.txt
+→ Disallow: /8028f.html
+https://challenge-url/8028f.html  → flag is here
+```
+
+#### Takeaways
+
+- `strings <file> | grep -i pico` is the first command to run on any unknown file in a CTF.
+- Tab completion saves enormous time and prevents typos — use it constantly.
+- Always check `/robots.txt` on web challenges. The `Disallow` entries are essentially a list of interesting pages the site owner wanted to hide from Google — but not from you.
+- View Page Source and check all linked CSS and JS files; flags and sensitive data are often hidden in comments.
+
+---
+
+## Section 4 — Python
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 4  
+**Date:** June 2026  
+**Skills demonstrated:** Running Python scripts, reading source code, hex-to-ASCII conversion, MD5 hashing, dictionary attacks
+
+#### Overview
+
+This section builds Python skills through a series of password-cracking challenges. Each one adds a new layer of complexity — from a hardcoded plain-text password, to hex-encoded characters, to MD5 hashing. Reading the provided source code before doing anything else is the key skill throughout.
+
+---
+
+### Python Wrangling ✅
+**Flag:** `picoCTF{4p0110_1n_7h3_h0us3_dbd1bea4}`
+
+The challenge gave a Python script (`ende.py`), an encrypted flag file, and a password file. Reading the script revealed it needed a `-d` flag to decrypt and would prompt for a password.
+
+```bash
+cat pw.txt           # read the password
+python3 ende.py -d flag.txt.en
+# enter password when prompted
+```
+
+The script used **Fernet encryption** — a symmetric scheme where the same key encrypts and decrypts. Since the key was in `pw.txt`, decryption was straightforward once the script's usage was understood.
+
+> Always `cat` or `nano` a script before running it — even a quick skim tells you what arguments it expects.
+
+---
+
+### PW Crack 1 ✅
+**Flag:** `picoCTF{545h_r1ng1ng_fa343060}`
+
+The password was hardcoded directly in the source code as plain text inside an `if` condition.
+
+```bash
+nano level1.py      # find: if user_pw == "1e1a"
+python3 level1.py -d level1.flag.txt.enc
+# enter: 1e1a
+```
+
+Hardcoded credentials are a real-world vulnerability — penetration testers use `grep -r "password" .` to hunt for exactly this in source code and config files.
+
+---
+
+### PW Crack 2 ✅
+**Flag:** `picoCTF{tr45h_51ng1ng_502ec42e}`
+
+The password was stored as four hex character codes: `chr(0x33) + chr(0x39) + chr(0x63) + chr(0x65)`. Each `chr()` call converts a number to its ASCII character.
 
 ```python
+# In Python shell — decode each value:
+chr(0x33)  # → '3'
+chr(0x39)  # → '9'
+chr(0x63)  # → 'c'
+chr(0x65)  # → 'e'
+# Password: 39ce
+```
+
+```bash
+python3 level2.py -d level2.flag.txt.enc
+# enter: 39ce
+```
+
+When you see `chr(0x__)` in Python source code, the script is building a string character by character from hex values — decode each one and join them.
+
+---
+
+### PW Crack 3 ✅
+**Flag:** `picoCTF{m45h_fl1ng1ng_cd6ed2eb}`
+
+This time the password was stored as an **MD5 hash** in a binary file (`level3.hash.bin`). Because MD5 is a one-way function, it can't be reversed — but it can be replicated. The solution was a **dictionary attack**: hash each candidate from the provided list and compare to the stored hash.
+
+```python
+# Add this loop to level3.py and run it
 for pw in pos_pw_list:
     if hash_pw(pw) == correct_pw_hash:
         print("Found it:", pw)
 # Output: Found it: 87ab
 ```
 
-The matching password (`87ab`) was then entered into the script to decrypt the flag:
-
 ```bash
 python3 level3.py -d level3.flag.txt.enc
-# picoCTF{m45h_fl1ng1ng_cd6ed2eb}
+# enter: 87ab
 ```
 
----
+| Concept | What it means |
+|---|---|
+| MD5 | One-way hash function — same input always gives same output, but can't be reversed |
+| Dictionary attack | Hash every candidate password and compare — when hashes match, password is found |
+| Rainbow tables | Pre-computed hash lookup tables — why plain MD5 password storage is insecure |
+| `bvi` | Binary file viewer — needed to inspect `.hash.bin` since `cat` produces garbled output |
 
 #### Takeaways
 
-- MD5 is a one-way function — you can't reverse it, but you can replicate it. If you can hash all the candidates and compare, you don't need to reverse anything.
-- Dictionary attacks are the standard approach to cracking hashed passwords when a candidate list exists. This is why password reuse and weak passwords are dangerous even when stored as hashes.
-- Reading source code before running anything is always the first step — the script told us exactly which hash function was used, where the stored hash lived, and what the candidate passwords were.
-- Python `NameError` exceptions almost always mean a variable name has a capitalisation mistake — Python is case-sensitive.
+- Reading source code is the most important skill in this section — the script always tells you what hash function is used, where the stored value lives, and what the candidates are.
+- Each PW Crack challenge adds one layer: plain text → hex encoding → MD5 hashing. Real password storage has evolved the same way — and further (bcrypt, Argon2).
+- Python is case-sensitive: `correct_pw_hash` ≠ `Correct_pw_hash`. A `NameError` almost always means a capitalisation mistake.
+- In real SOC/pen test work, dictionary attacks against MD5 hashes are trivial with tools like `hashcat` and wordlists like `rockyou.txt`.
 
 ---
 
-*Learning journey: CTF Labs (CyLab) → Section 4 Python → PW Crack 3 → PW Crack 4 (next)*
+*Learning journey: CTF Labs (CyLab) → Sections 1–4 → PW Crack 4 (next)*
+
+</details>
 
 ---
 
