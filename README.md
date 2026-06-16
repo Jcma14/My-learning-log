@@ -436,7 +436,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | Section 1 — Sanity Checks | 3/3 | ✅ Complete |
 | Section 2 — CyberChef | 4/4 | ✅ Complete |
 | Section 3 — General Skills | 6/6 | ✅ Complete |
-| Section 4 — Python | 1/6 | 🔄 In Progress |
+| Section 4 — Python | 2/6 | 🔄 In Progress |
 
 ---
 
@@ -453,6 +453,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | `base64 -d` | Decode Base64 strings | Encoded strings in challenges |
 | CyberChef | Browser-based encoder/decoder | ROT13, Base64, hex, and more |
 | `unzip` | Extract zip archives | Compressed file challenges |
+| `bvi` | Binary file viewer | Inspect `.bin` or binary files in hex |
 
 ---
 
@@ -479,6 +480,78 @@ ssh user@host -p <port>
 ```
 
 </details>
+
+---
+
+### picoCTF — PW Crack 3: MD5 Hashing and Dictionary Attacks
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 4 (Python)  
+**Date:** June 2026  
+**Skills demonstrated:** MD5 hash comparison, dictionary attack, Python scripting, binary file inspection, reading source code
+
+---
+
+#### Overview
+
+In this challenge, a password was stored not as plain text or a simple encoding, but as an **MD5 hash** — a one-way cryptographic fingerprint of the original value. Because hashes can't be reversed, the solution required performing a **dictionary attack**: hashing each candidate password from a provided list and comparing the result to the stored hash until a match was found.
+
+This mirrors a core real-world technique used by both attackers (cracking leaked password databases) and defenders (understanding why MD5 is no longer safe for password storage).
+
+---
+
+#### Key Concepts
+
+**MD5 hashing** is a one-way function with three important properties:
+- *One-way:* You cannot reverse a hash to recover the original input
+- *Deterministic:* The same input always produces the same hash output
+- *Fixed length:* MD5 always produces a 16-byte (128-bit) result
+
+These properties make hashes useful for verifying passwords without storing them in plain text — but MD5 is now considered weak because pre-computed lookup tables (called **rainbow tables**) can crack common MD5 hashes almost instantly.
+
+**Dictionary attack** — rather than trying to reverse a hash, you hash every word in a known list and compare each result to the target hash. When they match, you've found the original password. In real-world attacks, wordlists like `rockyou.txt` contain millions of entries.
+
+| Python concept | What it does |
+|---|---|
+| `hashlib.md5()` | Initialises the MD5 hashing engine |
+| `m.update(pw_bytes)` | Feeds the password bytes into the hasher |
+| `m.digest()` | Returns the hash as raw bytes for comparison |
+| `hash_pw(pw) == correct_pw_hash` | Compares two hashes — if equal, password is found |
+
+---
+
+#### Practical Application
+
+The challenge provided three files: `level3.py` (the password checker), `level3.flag.txt.enc` (the encrypted flag), and `level3.hash.bin` (the stored MD5 hash). Inspecting the binary hash file with `bvi` revealed the raw bytes: `E1 6D 55 A5 5D 80 DD DD 52 A8 3E AB EA 57 2B 7B`.
+
+Reading the script revealed the `hash_pw()` function and a list of 7 possible passwords. The solution was to extend the script with a loop:
+
+```python
+for pw in pos_pw_list:
+    if hash_pw(pw) == correct_pw_hash:
+        print("Found it:", pw)
+# Output: Found it: 87ab
+```
+
+The matching password (`87ab`) was then entered into the script to decrypt the flag:
+
+```bash
+python3 level3.py -d level3.flag.txt.enc
+# picoCTF{m45h_fl1ng1ng_cd6ed2eb}
+```
+
+---
+
+#### Takeaways
+
+- MD5 is a one-way function — you can't reverse it, but you can replicate it. If you can hash all the candidates and compare, you don't need to reverse anything.
+- Dictionary attacks are the standard approach to cracking hashed passwords when a candidate list exists. This is why password reuse and weak passwords are dangerous even when stored as hashes.
+- Reading source code before running anything is always the first step — the script told us exactly which hash function was used, where the stored hash lived, and what the candidate passwords were.
+- Python `NameError` exceptions almost always mean a variable name has a capitalisation mistake — Python is case-sensitive.
+
+---
+
+*Learning journey: CTF Labs (CyLab) → Section 4 Python → PW Crack 3 → PW Crack 4 (next)*
 
 ---
 
