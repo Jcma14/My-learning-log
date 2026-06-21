@@ -506,7 +506,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | Section 1 — Sanity Checks | 3/3 | ✅ Complete |
 | Section 2 — CyberChef | 4/4 | ✅ Complete |
 | Section 3 — General Skills | 6/6 | ✅ Complete |
-| Section 4 — Python | 2/6 | 🔄 In Progress |
+| Section 4 — Python | 4/6 | 🔄 In Progress |
 
 ---
 
@@ -823,7 +823,7 @@ When you see `chr(0x__)` in Python source code, the script is building a string 
 
 ### PW Crack 3 ✅
 **Flag:** `picoCTF{m45h_fl1ng1ng_cd6ed2eb}`  
-**Skills demonstrated:** MD5 hash comparison, dictionary attack, Python scripting, binary file inspection, reading source code
+**Skills demonstrated:** MD5 hash comparison, dictionary attack, Python function modification, binary file inspection, reading source code
 
 #### Overview
 
@@ -887,7 +887,13 @@ bvi level3.hash.bin
 # :q to exit
 ```
 
-**2. Run a dictionary attack — open the Python3 shell and paste the full script plus this loop:**
+**2. Modify the script to automate the search:**
+
+The key technique is to **modify the original script** rather than writing a separate loop. Three changes are needed:
+- Add `user_pw` as a **parameter** to `level_3_pw_check()` — so passwords can be fed in automatically instead of typed
+- **Comment out** the `input()` line — prevents the program from stopping to ask for keyboard input on every iteration
+- **Comment out** the error print — keeps output clean (no noise for wrong guesses)
+- Replace the single `level_3_pw_check()` call with a **for loop** over `pos_pw_list`
 
 ```python
 import hashlib
@@ -902,22 +908,23 @@ def hash_pw(pw_str):
     m.update(pw_bytes)
     return m.digest()
 
+def level_3_pw_check(user_pw):          # ← added parameter
+#   user_pw = input("Please enter correct password for flag: ")  # ← commented out
+    user_pw_hash = hash_pw(user_pw)
+    if( user_pw_hash == correct_pw_hash ):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+#   print("That password is incorrect")  # ← commented out
+
 pos_pw_list = ["f09e", "4dcf", "87ab", "dba8", "752e", "3961", "f159"]
 
-for pw in pos_pw_list:
-    if hash_pw(pw) == correct_pw_hash:
-        print("Found it:", pw)
+for pw in pos_pw_list:    # ← replaces the single call
+    level_3_pw_check(pw)
 ```
 
-Output: `Found it: 87ab`
-
-**3. Run the challenge script and enter the cracked password:**
-```bash
-python3 level3.py -d level3.flag.txt.enc
-# Please enter correct password for flag: 87ab
-# Welcome back... your flag, user:
-# picoCTF{m45h_fl1ng1ng_cd6ed2eb}
-```
+Output: the flag prints directly when the matching password is found.
 
 ---
 
@@ -954,7 +961,7 @@ python3 level3.py -d level3.flag.txt.enc
 
 ---
 
-*Learning journey: CTF Labs (CyLab) → Sections 1–4 → PW Crack 4 (next)*
+*Learning journey: CTF Labs (CyLab) → Sections 1–4 → PW Crack 5 (next)*
 
 </details>
 
@@ -1160,6 +1167,56 @@ Reconnaissance → Information disclosure (URL leak) → Password reset → Secu
 *Learning journey: Threat Hunting with KQL → A Rap Beef Module 1 → Module 2: Less Beef, More Phish*
 
 </details>
+
+---
+
+### PW Crack 4 ✅
+**Flag:** *(obtained during session)*  
+**Skills demonstrated:** MD5 dictionary attack, function parameterisation, automated password testing at scale
+
+#### Overview
+
+PW Crack 4 builds directly on PW Crack 3 — same MD5 hashing technique, same dictionary attack approach — but scales up from 7 candidates to 100. The challenge reinforces the same script-modification pattern while introducing a subtlety: with 100 candidates, noisy output and uncontrolled `input()` calls become real friction that must be handled cleanly.
+
+#### Key Concepts
+
+The same three modifications from PW Crack 3 apply here:
+
+| Change | Why it matters |
+|---|---|
+| Add `user_pw` as a function parameter | Allows the loop to feed each candidate in automatically, no keyboard input needed |
+| Comment out `input()` | Without this, Python stops and waits for typed input on every single iteration |
+| Comment out error print | With 100 candidates, leaving it active would produce 99 lines of noise before the flag appears |
+
+```python
+def level_4_pw_check(user_pw):          # ← parameter instead of input()
+#   user_pw = input("...")              # ← commented out
+    user_pw_hash = hash_pw(user_pw)
+    if( user_pw_hash == correct_pw_hash ):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+#   print("That password is incorrect") # ← commented out
+
+for pw in pos_pw_list:
+    level_4_pw_check(pw)
+```
+
+#### Practical Application
+
+The modified script iterates through all 100 candidates, hashing each one with MD5 and comparing the result to the hash stored in `level4.hash.bin`. When the hashes match, the function calls `str_xor()` internally and prints the decrypted flag — no manual step required.
+
+#### Takeaways
+
+- The pattern from PW Crack 3 is reusable: add parameter → comment out input → comment out error print → replace single call with loop. This generalises to any number of candidates.
+- Passing values as **function parameters** instead of relying on `input()` is a foundational programming concept — it's what makes functions testable and automatable.
+- Commenting out noise (error prints, prompts) is good practice when automating repetitive operations. Clean output is faster to read and less error-prone.
+- At scale (millions of candidates), this same logic is what tools like `hashcat` implement — just much faster, with GPU acceleration and optimised data structures.
+
+---
+
+*Learning journey: CTF Labs (CyLab) → PW Crack 4 → PW Crack 5 (next)*
 
 ---
 
