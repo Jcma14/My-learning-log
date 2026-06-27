@@ -1073,10 +1073,6 @@ Note: unlike PW Crack 3 and 4, no `input()` existed in the original script — t
 - The `with open(...) as f` pattern is the correct way to open files in Python — it guarantees the file is closed even if an error occurs inside the block.
 - `f` is a conventional short name for a file object, the same way `i` is conventional for loop counters. Variable names in Python are arbitrary — what matters is consistency and readability.
 
----
-
-*Learning journey: CTF Labs (CyLab) → PW Crack 5 → PW Crack 6 (next)*
-
 </details>
 
 ---
