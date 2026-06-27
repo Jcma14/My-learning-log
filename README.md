@@ -506,6 +506,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | Section 2 — CyberChef | 4/4 | ✅ Complete |
 | Section 3 — General Skills | 6/6 | ✅ Complete |
 | Section 4 — Python | 6/6 | ✅ Complete |
+| Section 5 — Web Exploits | 1/1 | 🔄 In Progress |
 
 ---
 
@@ -1004,6 +1005,7 @@ The modified script iterates through all 100 candidates, hashing each one with M
 ---
 
 ### PW Crack 5 ✅
+
 **Skills demonstrated:** MD5 dictionary attack, reading passwords from an external file, Python file I/O, `strip()` for text cleaning
 
 #### Overview
@@ -1072,6 +1074,123 @@ Note: unlike PW Crack 3 and 4, no `input()` existed in the original script — t
 - `strip()` is mandatory when processing text files line by line. Forgetting it is one of the most common bugs when working with file input in Python.
 - The `with open(...) as f` pattern is the correct way to open files in Python — it guarantees the file is closed even if an error occurs inside the block.
 - `f` is a conventional short name for a file object, the same way `i` is conventional for loop counters. Variable names in Python are arbitrary — what matters is consistency and readability.
+
+---
+
+## Section 5 — Web Exploits: SVG & Source Inspection
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 5, Module 1: "Enhance!"  
+**Date:** June 2026  
+**Skills demonstrated:** SVG file analysis, XML source inspection, identifying data hidden in plain sight, source modification to understand rendering
+
+#### Overview
+
+This challenge introduced the SVG file format — a text-based image format written in XML. Unlike raster images (JPEG, PNG), SVG files are plain readable text that describes how to draw an image using shapes, coordinates, and properties. The flag was hidden inside the file using three simultaneous techniques, each of which alone might seem insufficient but together made the data completely invisible when rendered.
+
+The approach that found the flag: open the raw XML source directly and read it — because the browser renders what it chooses to show you, but the source always tells the truth.
+
+#### What is SVG?
+
+SVG (Scalable Vector Graphics) is an XML-based image format. Instead of storing pixels, it stores *instructions* for how to draw shapes:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <circle cx="100" cy="100" r="80" fill="blue"/>
+  <text x="50" y="110" font-size="20">Hello</text>
+</svg>
+```
+
+This means SVG files are fundamentally different from JPEG or PNG:
+
+| Property | JPEG / PNG | SVG |
+|---|---|---|
+| Format type | Raster — pixel grid | Vector — XML instructions |
+| Readable as text | No — binary data | Yes — plain XML |
+| Can embed JavaScript | No | Yes — `<script>` is valid |
+| Can hide data in source | Only in binary metadata | In comments, invisible elements, attributes |
+| Scales without quality loss | No | Yes — rendered mathematically |
+
+#### The Challenge: Three Layers of Hiding
+
+The flag `picoCTF{3nh4nc3d_aab729dd}` was hidden in the SVG using:
+
+**Layer 1 — Microscopic font size:**
+```xml
+style="font-size:0.00352781px;"
+```
+Sub-pixel text: rendered by the browser but at 0.003px — physically invisible.
+
+**Layer 2 — White text on white background:**
+```xml
+style="fill:#ffffff;"
+```
+`#ffffff` is white. The page background is also white. Even at readable size, invisible.
+
+**Layer 3 — Hidden inside a white circle:**
+```xml
+<circle cx="107.59055" cy="132.30211" r="3.3341289" style="fill:#ffffff;"/>
+```
+A white-filled circle positioned directly over the text, acting as a visual mask.
+
+The flag was also split character by character across multiple `<tspan>` elements stacked vertically at fractional y-coordinate intervals — like a word search read from source, not from the rendered page.
+
+#### How the Flag Was Found
+
+The challenge was solved by opening the raw XML source and reading it directly — noticing `<text>` and `<tspan>` elements containing characters of the flag format, even without the benefit of searching.
+
+For future SVG challenges, the systematic approach:
+
+```bash
+# 1. Read the raw XML source
+cat drawing.svg | less
+
+# 2. Search for the flag directly
+grep -i "pico" drawing.svg
+grep -i "CTF" drawing.svg
+
+# 3. Look for hidden-content indicators
+grep -i "font-size" drawing.svg     # tiny fonts
+grep -i "fill:#ffffff" drawing.svg  # white-on-white
+grep -i "opacity:0" drawing.svg     # invisible elements
+grep -i "<!--" drawing.svg          # XML comments
+
+# 4. Extract all text strings
+strings drawing.svg
+```
+
+#### Source Modification Experiment
+
+After finding the flag, the source was edited — increasing `font-size` to something readable and changing `fill:#ffffff` to `fill:#000000`. The image was reopened and the characters became visible, but overlapping and jumbled.
+
+**Why jumbled:** The `y` coordinates between `<tspan>` elements were designed for microscopic spacing (differences of ~0.004 units). When the font size became 12px, each character occupied real vertical space but the positions still stacked them nearly on top of each other.
+
+**Why the circle was hard to resize:** All elements share the same coordinate system. Resizing one without adjusting the others causes them to misalign.
+
+**The principle this reveals:** SVG separates *content* from *presentation*. The flag text existed in the file regardless of how it was displayed. Changing display properties (`font-size`, `fill`, `opacity`) does not touch the data — it only changes what the renderer shows. This is exactly why source inspection is more reliable than visual inspection.
+
+#### Why SVG Matters in Cybersecurity
+
+| Risk | Mechanism |
+|---|---|
+| **XSS via SVG upload** | `<script>` tags are valid SVG — a malicious SVG rendered by a web app can execute JavaScript in a victim's browser |
+| **SSRF via SVG** | SVG can make HTTP requests via embedded links — server-side rendering of SVGs can leak internal network data |
+| **Upload filter bypass** | SVG is classified as `text/xml`, not a binary image — some upload filters designed to block image-based payloads miss it |
+| **Steganography** | Data hidden in comments, invisible elements, off-screen coordinates, or microscopic text — as in this challenge |
+
+In incident response and malware analysis, SVG files are always inspected as text files, never just opened as images.
+
+#### Takeaways
+
+- The rendered view and the source are never the same thing. A browser decides what to show you — the XML source always shows what is actually there.
+- `cat`, `strings`, and `grep` work on SVG files because they are plain text. This is the correct first approach for any SVG in a CTF or investigation.
+- Three simultaneous hiding techniques (tiny font, white colour, masked by white shape) made this flag visually undetectable while it remained in fully readable plain text.
+- SVG is a legitimate attack vector in real security work — XSS via malicious SVG uploads is a documented vulnerability class. Understanding SVG source inspection is directly applicable to web application security testing.
+- Source modification is a powerful learning technique: change a property, reopen the file, observe what changed. This is how you build intuition for how rendering systems work.
+
+---
+
+*Learning journey: CyLab Beginner's Guide → Section 5 (Web Exploits) → next: more web exploitation modules*
 
 </details>
 
