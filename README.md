@@ -1260,7 +1260,73 @@ grep -ri "picoctf" target-directory/
 
 ---
 
-*Learning journey: CyLab Beginner's Guide → Section 5 (Web Exploits) → next: more web exploitation modules*
+## Challenge 3 — Vault Door Training
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 5, Challenge 3: "Vault Door Training"  
+**Date:** June 2026  
+**Skills demonstrated:** Java source code analysis, static analysis, identifying hardcoded secrets, introduction to reverse engineering
+
+#### Overview
+
+This challenge introduced source code analysis as a security technique. The task is framed as a spy mission — infiltrate Dr. Evil's vault by cracking the password for a series of locked doors. The training vault comes with its Java source code (`VaultDoorTraining.java`) included. No exploitation required: reading the code is the entire solution.
+
+The `checkPassword()` method compares user input directly to a hardcoded string in plain text. The flag is the hardcoded string wrapped in `picoCTF{...}`.
+
+#### Key Concepts
+
+**How the program validates input:**
+
+```java
+// main() strips the picoCTF{} wrapper before calling checkPassword()
+String input = userInput.substring("picoCTF{".length(), userInput.length()-1);
+if (vaultDoor.checkPassword(input)) {
+    System.out.println("Access granted.");
+}
+
+// checkPassword() compares the stripped input to a hardcoded string
+public boolean checkPassword(String password) {
+    return password.equals("w4rm1ng_Up_w1tH_jAv4_eec0716b713");
+}
+```
+
+The hardcoded string in `password.equals(...)` is the flag content. No decoding, no running the program — just read the source.
+
+**Java vs JavaScript — not the same language:**
+
+| | Java | JavaScript |
+|---|---|---|
+| File extension | `.java` (source), `.class` (compiled) | `.js` |
+| Compiled? | Yes — `javac` compiles to JVM bytecode | No — interpreted at runtime |
+| Primary use | Desktop/backend apps, Android, CTF RE challenges | Web browsers, Node.js |
+
+Despite the similar names, these are completely unrelated languages.
+
+#### Practical Application
+
+```bash
+# Read the source file
+cat VaultDoorTraining.java
+
+# Jump straight to the password line
+grep "equals" VaultDoorTraining.java
+# → return password.equals("w4rm1ng_Up_w1tH_jAv4_eec0716b713");
+
+# Flag: picoCTF{w4rm1ng_Up_w1tH_jAv4_eec0716b713}
+```
+
+Compiling and running is optional — the flag is readable from source alone. If you do run it: `javac VaultDoorTraining.java` → `java VaultDoorTraining` → enter the full flag with the `picoCTF{...}` wrapper → "Access granted."
+
+#### Takeaways
+
+- Hardcoded secrets in source code are a real vulnerability class — not just a CTF trick. Java `.class` files decompile cleanly, so embedding a password in code is equivalent to writing it in a comment.
+- In real systems, secrets belong in environment variables or dedicated secret managers (AWS Secrets Manager, HashiCorp Vault) — never in source code.
+- This challenge is the entry point to the full Vault Door series (1–8), where each subsequent challenge obfuscates the password further (character arrays, encoding, XOR, bit shifting). The obfuscation increases, but the core weakness — password embedded in code — is always present.
+- `grep "equals"` is a fast pattern for finding string comparisons in Java CTF source files.
+
+---
+
+*Learning journey: CyLab Beginner's Guide → Section 5 (Web Exploits & Source Analysis) → Vault Door series continues*
 
 </details>
 
