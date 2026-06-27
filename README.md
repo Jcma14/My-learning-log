@@ -1009,7 +1009,80 @@ The modified script iterates through all 100 candidates, hashing each one with M
 
 ---
 
-*Learning journey: CTF Labs (CyLab) → PW Crack 4 → PW Crack 5 (next)*
+### PW Crack 5 ✅
+**Flag:** `picoCTF{h45h_sl1ng1ng_fffcda23}`  
+**Skills demonstrated:** MD5 dictionary attack, reading passwords from an external file, Python file I/O, `strip()` for text cleaning
+
+#### Overview
+
+PW Crack 5 introduces a key real-world pattern: instead of hardcoding candidate passwords inside the script, they are read from an external file (`dictionary.txt`) — one password per line. The core MD5 hashing and comparison logic is identical to PW Crack 3 and 4. The new challenge is reading the file correctly and cleaning each line before hashing.
+
+This mirrors how password cracking works in practice: tools like `hashcat` and `john` consume wordlist files (such as `rockyou.txt` with 14 million entries) and hash each candidate against a target hash. The only difference is scale.
+
+#### Key Concepts
+
+**Reading a file and building the candidate list:**
+
+```python
+with open('dictionary.txt', 'r') as f:
+    pos_pw_list = [line.strip() for line in f]
+```
+
+| Component | What it does |
+|---|---|
+| `open('dictionary.txt', 'r')` | Opens the file in text read mode |
+| `with ... as f` | Safely opens the file; Python closes it automatically when the block ends |
+| `f` | A variable name for the file object — could be called anything |
+| `for line in f` | Reads each line from the file one at a time |
+| `line.strip()` | Removes the `\n` newline character from the end of each line |
+
+**Why `strip()` is essential:**
+
+Python includes the newline character when reading lines from a file:
+```
+"password123\n"
+```
+Hashing `"password123\n"` produces a completely different MD5 result from hashing `"password123"` — so without `strip()`, nothing would ever match, even the correct password.
+
+**The complete modified function:**
+
+```python
+def level_5_pw_check():
+    with open('dictionary.txt', 'r') as f:
+        pos_pw_list = [line.strip() for line in f]
+
+    for pw in pos_pw_list:
+        if hash_pw(pw) == correct_pw_hash:
+            print("Correct password found:", pw)
+            decryption = str_xor(flag_enc.decode(), pw)
+            print(decryption)
+            return
+
+    print("Password not found in dictionary")
+```
+
+Note: unlike PW Crack 3 and 4, no `input()` existed in the original script — the function body was replaced entirely rather than modified.
+
+#### Comparison: PW Crack 4 vs PW Crack 5
+
+| Feature | PW Crack 4 | PW Crack 5 |
+|---|---|---|
+| Password source | Hardcoded list in script | External `dictionary.txt` file |
+| File I/O needed | No | Yes — `open()` + iteration |
+| `strip()` needed | No | Yes — removes `\n` from each line |
+| `input()` to comment out | Yes | No (not in original) |
+| Hash comparison loop | Same | Same |
+
+#### Takeaways
+
+- Reading passwords from an external file is the standard approach in real-world tooling. Hardcoding candidates is fine for small CTF lists but doesn't scale — a file can hold millions of entries without changing any code.
+- `strip()` is mandatory when processing text files line by line. Forgetting it is one of the most common bugs when working with file input in Python.
+- The `with open(...) as f` pattern is the correct way to open files in Python — it guarantees the file is closed even if an error occurs inside the block.
+- `f` is a conventional short name for a file object, the same way `i` is conventional for loop counters. Variable names in Python are arbitrary — what matters is consistency and readability.
+
+---
+
+*Learning journey: CTF Labs (CyLab) → PW Crack 5 → PW Crack 6 (next)*
 
 </details>
 
