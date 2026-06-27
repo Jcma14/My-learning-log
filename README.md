@@ -506,7 +506,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | Section 1 — Sanity Checks | 3/3 | ✅ Complete |
 | Section 2 — CyberChef | 4/4 | ✅ Complete |
 | Section 3 — General Skills | 6/6 | ✅ Complete |
-| Section 4 — Python | 4/6 | 🔄 In Progress |
+| Section 4 — Python | 5/6 | 🔄 In Progress |
 
 ---
 
@@ -767,7 +767,6 @@ This section builds Python skills through a series of password-cracking challeng
 ---
 
 ### Python Wrangling ✅
-**Flag:** `picoCTF{4p0110_1n_7h3_h0us3_dbd1bea4}`
 
 The challenge gave a Python script (`ende.py`), an encrypted flag file, and a password file. Reading the script revealed it needed a `-d` flag to decrypt and would prompt for a password.
 
@@ -784,7 +783,6 @@ The script used **Fernet encryption** — a symmetric scheme where the same key 
 ---
 
 ### PW Crack 1 ✅
-**Flag:** `picoCTF{545h_r1ng1ng_fa343060}`
 
 The password was hardcoded directly in the source code as plain text inside an `if` condition.
 
@@ -799,7 +797,6 @@ Hardcoded credentials are a real-world vulnerability — penetration testers use
 ---
 
 ### PW Crack 2 ✅
-**Flag:** `picoCTF{tr45h_51ng1ng_502ec42e}`
 
 The password was stored as four hex character codes: `chr(0x33) + chr(0x39) + chr(0x63) + chr(0x65)`. Each `chr()` call converts a number to its ASCII character.
 
@@ -822,7 +819,6 @@ When you see `chr(0x__)` in Python source code, the script is building a string 
 ---
 
 ### PW Crack 3 ✅
-**Flag:** `picoCTF{m45h_fl1ng1ng_cd6ed2eb}`  
 **Skills demonstrated:** MD5 hash comparison, dictionary attack, Python function modification, binary file inspection, reading source code
 
 #### Overview
@@ -964,7 +960,6 @@ Output: the flag prints directly when the matching password is found.
 ---
 
 ### PW Crack 4 ✅
-**Flag:** *(obtained during session — add when available)*  
 **Skills demonstrated:** MD5 dictionary attack, function parameterisation, automated password testing at scale
 
 #### Overview
@@ -1010,7 +1005,6 @@ The modified script iterates through all 100 candidates, hashing each one with M
 ---
 
 ### PW Crack 5 ✅
-**Flag:** `picoCTF{h45h_sl1ng1ng_fffcda23}`  
 **Skills demonstrated:** MD5 dictionary attack, reading passwords from an external file, Python file I/O, `strip()` for text cleaning
 
 #### Overview
