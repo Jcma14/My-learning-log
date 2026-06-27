@@ -488,7 +488,6 @@ sudo nmap -sU --top-ports 20 <IP>
 **Platform:** CyLab Security Academy (formerly picoCTF) — Carnegie Mellon University  
 **URL:** https://cylabacademy.org  
 **Path:** Beginner's Guide to the Challenge Library  
-**Progress:** 17/28 modules complete
 
 ---
 
@@ -506,7 +505,7 @@ A **Capture the Flag** competition is a cybersecurity challenge where you find h
 | Section 1 — Sanity Checks | 3/3 | ✅ Complete |
 | Section 2 — CyberChef | 4/4 | ✅ Complete |
 | Section 3 — General Skills | 6/6 | ✅ Complete |
-| Section 4 — Python | 5/6 | 🔄 In Progress |
+| Section 4 — Python | 6/6 | ✅ Complete |
 
 ---
 
