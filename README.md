@@ -1286,7 +1286,7 @@ if (vaultDoor.checkPassword(input)) {
 
 // checkPassword() compares the stripped input to a hardcoded string
 public boolean checkPassword(String password) {
-    return password.equals("w4rm1ng_Up_w1tH_jAv4_eec0716b713");
+    return password.equals("w4rm1ng_Up_w1tH_jAv4_000wYdiGTvt");
 }
 ```
 
