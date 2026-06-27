@@ -1080,6 +1080,13 @@ Note: unlike PW Crack 3 and 4, no `input()` existed in the original script — t
 ## Section 5 — Web Exploits: SVG & Source Inspection
 
 **Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 5. 
+**Date:** June 2026  
+**Skills demonstrated:** SVG file analysis, XML source inspection, identifying data hidden in plain sight, source modification to understand rendering
+
+## Challenge 1 — Enhance!
+
+**Platform:** CyLab Security Academy / picoCTF  
 **Module:** Beginner's Guide to the Challenge Library — Section 5, Module 1: "Enhance!"  
 **Date:** June 2026  
 **Skills demonstrated:** SVG file analysis, XML source inspection, identifying data hidden in plain sight, source modification to understand rendering
