@@ -1190,6 +1190,69 @@ In incident response and malware analysis, SVG files are always inspected as tex
 
 ---
 
+## Challenge 2 — Big Zip
+
+**Platform:** CyLab Security Academy / picoCTF  
+**Module:** Beginner's Guide to the Challenge Library — Section 5, Module 2: "Big Zip"  
+**Date:** June 2026  
+**Skills demonstrated:** `unzip`, recursive `grep -r`, understanding compression format differences
+
+#### Overview
+
+This challenge presented a `.zip` archive containing hundreds of files and subdirectories. The flag was hidden somewhere inside — the task was to locate it efficiently without manually inspecting every file. The solution introduced one of the most practical command-line patterns in CTF work: extract first, then search recursively.
+
+#### Key Concepts
+
+**Why grep can't read a .zip directly:**
+
+`grep` operates on plain text. A `.zip` file is a binary container — its contents are compressed and not directly readable. You must extract the archive first and then search the resulting files.
+
+During research, `man grep` revealed `zgrep`, `zegrep`, and `zfgrep` — wrapper tools that can search inside compressed files without manually decompressing them. However, these tools work with **gzip** (`.gz`) format only, not `.zip`. The `file` command confirms the difference:
+
+```bash
+file BigZip.zip
+# → Zip archive data
+```
+
+**The solution — unzip, then recursive grep:**
+
+```bash
+# Step 1: extract the archive
+unzip BigZip.zip
+
+# Step 2: search recursively through all extracted files
+grep -r "picoCTF" big-zip-files/
+```
+
+| Flag | What it does |
+|---|---|
+| `-r` | Recursively search all files and subfolders inside the directory |
+| `-i` | Case-insensitive — useful when unsure about capitalisation |
+| `-R` | Same as `-r` but also follows symbolic links |
+
+The flag appeared immediately: `picoCTF{gr3p_15_m4g1c_ef8790dc}`
+
+#### Practical Application
+
+Recursive grep is one of the most frequently used patterns in both CTF work and real security investigations — searching through log dumps, extracted filesystem images, source code repositories, or any large collection of files for a specific string.
+
+```bash
+# General pattern
+grep -r "search_term" target-directory/
+
+# Case-insensitive version
+grep -ri "picoctf" target-directory/
+```
+
+#### Takeaways
+
+- `grep` cannot read inside `.zip` archives — always unzip first, then search the extracted contents.
+- `-r` is the recursive flag: it searches every file inside a directory tree automatically, no matter how many files or how deep the nesting goes.
+- `zgrep` and friends are useful tools to know — but only for `.gz` (gzip) files. Format confusion is a common stumbling block; `file <filename>` always resolves it.
+- This pattern — extract → recursive grep — appears constantly in CTF forensics, log analysis, and incident response work.
+
+---
+
 *Learning journey: CyLab Beginner's Guide → Section 5 (Web Exploits) → next: more web exploitation modules*
 
 </details>
