@@ -1,29 +1,10 @@
-<div align="center">
+# Learning Log: Cyber Security Journey
 
-# 🛡️ Personal Learning Log: Cybersecurity Journey
+**Master of Cyber Security student at ECU** · documenting hands-on labs, CTFs and home lab work as I go
 
-<img src="assets/Neon Green and Black Tech Virtual Background.png" width="90%" alt="Tech banner"/>
+Notes come from TryHackMe labs, CTF platforms, home lab work and self-study — written to be clear, practical, and useful for anyone learning the same material. Continuously updated. A QA testing reference section is included too, from my background in software testing.
 
-### Transitioning into Cybersecurity | QA Engineering Background | ECU Master of Cyber Security (2026)
-
-This repository documents my hands-on journey into cybersecurity, built on a foundation of QA engineering and software testing.  
-Notes come from **TryHackMe labs**, **CTF platforms**, **home lab work**, and **self-study** — written to be clear, practical, and useful for anyone learning the same material.  
-Continuously updated as I progress.
-
----
-
-### 🧠 Tech Stack & Tools
-
-![Cybersecurity](https://img.shields.io/badge/Cybersecurity-darkred?style=for-the-badge&logo=kalilinux&logoColor=white)
-![TryHackMe](https://img.shields.io/badge/TryHackMe-212C42?style=for-the-badge&logo=tryhackme&logoColor=white)
-![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
-![Nmap](https://img.shields.io/badge/Nmap-0E83CD?style=for-the-badge&logo=nmap&logoColor=white)
-![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![SQL](https://img.shields.io/badge/KQL%20%2F%20SQL-336791?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![QA](https://img.shields.io/badge/QA%20Engineering-blueviolet?style=for-the-badge&logo=testcafe&logoColor=white)
-
-</div>
+**Tools & topics:** Kali Linux · TryHackMe · Nmap · KQL · Python · Linux · SQL
 
 ---
 
