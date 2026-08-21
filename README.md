@@ -1667,8 +1667,8 @@ A Python reference by Jack Rhysider (host of [Darknet Diaries](https://darknetdi
 Areas actively in progress — notes will be added as completed:
 
 - **Home Lab Setup** — Kali Linux VM, VPN server (PiVPN + WireGuard), Pi-hole, network segmentation
-- **KC7 Investigations** — ongoing SOC simulation writeups
-- **picoCTF / CyLab** — Section 4 (Python) and beyond
+- **KC7 Investigations** — *A Rap Beef* Module 2 (Less Beef, More Phish), then further SOC scenarios
+- **picoCTF / CyLab** — Section 5 (Web Exploits) continues, including the rest of the Vault Door series
 - **PowerShell for Security** — scripting and automation
 - **Networking Deep Dive** — TCP/IP, DNS, HTTP in depth
 - **Web Application Security** — OWASP Top 10, Burp Suite
@@ -1679,6 +1679,6 @@ Areas actively in progress — notes will be added as completed:
 
 <div align="center">
 
-*Built while studying for a Master of Cyber Security at Edith Cowan University (ECU), Perth — starting 2026.*
+*Built while studying for a Master of Cyber Security at Edith Cowan University (ECU), Perth — since 2026.*
 
 </div>
