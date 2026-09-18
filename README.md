@@ -1,29 +1,10 @@
-<div align="center">
+# Learning Log: Cyber Security Journey
 
-# 🛡️ Personal Learning Log: Cybersecurity Journey
+**Master of Cyber Security student at ECU** · documenting hands-on labs, CTFs and home lab work as I go
 
-<img src="assets/Neon Green and Black Tech Virtual Background.png" width="90%" alt="Tech banner"/>
+Notes come from TryHackMe labs, CTF platforms, home lab work and self-study — written to be clear, practical, and useful for anyone learning the same material. Continuously updated. A QA testing reference section is included too, from my background in software testing.
 
-### Transitioning into Cybersecurity | QA Engineering Background | ECU Master of Cyber Security (2026)
-
-This repository documents my hands-on journey into cybersecurity, built on a foundation of QA engineering and software testing.  
-Notes come from **TryHackMe labs**, **CTF platforms**, **home lab work**, and **self-study** — written to be clear, practical, and useful for anyone learning the same material.  
-Continuously updated as I progress.
-
----
-
-### 🧠 Tech Stack & Tools
-
-![Cybersecurity](https://img.shields.io/badge/Cybersecurity-darkred?style=for-the-badge&logo=kalilinux&logoColor=white)
-![TryHackMe](https://img.shields.io/badge/TryHackMe-212C42?style=for-the-badge&logo=tryhackme&logoColor=white)
-![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
-![Nmap](https://img.shields.io/badge/Nmap-0E83CD?style=for-the-badge&logo=nmap&logoColor=white)
-![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![SQL](https://img.shields.io/badge/KQL%20%2F%20SQL-336791?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![QA](https://img.shields.io/badge/QA%20Engineering-blueviolet?style=for-the-badge&logo=testcafe&logoColor=white)
-
-</div>
+**Tools & topics:** Kali Linux · TryHackMe · Nmap · KQL · Python · Linux · SQL
 
 ---
 
@@ -1756,8 +1737,8 @@ Exploring the fake filesystem surfaced a good example of how these honeypots act
 Areas actively in progress — notes will be added as completed:
 
 - **Home Lab Setup** — Kali Linux VM, VPN server (PiVPN + WireGuard), Pi-hole, network segmentation
-- **KC7 Investigations** — ongoing SOC simulation writeups
-- **picoCTF / CyLab** — Section 4 (Python) and beyond
+- **KC7 Investigations** — *A Rap Beef* Module 2 (Less Beef, More Phish), then further SOC scenarios
+- **picoCTF / CyLab** — Section 5 (Web Exploits) continues, including the rest of the Vault Door series
 - **PowerShell for Security** — scripting and automation
 - **Networking Deep Dive** — TCP/IP, DNS, HTTP in depth
 - **Web Application Security** — OWASP Top 10, Burp Suite
@@ -1768,6 +1749,6 @@ Areas actively in progress — notes will be added as completed:
 
 <div align="center">
 
-*Built while studying for a Master of Cyber Security at Edith Cowan University (ECU), Perth — starting 2026.*
+*Built while studying for a Master of Cyber Security at Edith Cowan University (ECU), Perth — since 2026.*
 
 </div>
